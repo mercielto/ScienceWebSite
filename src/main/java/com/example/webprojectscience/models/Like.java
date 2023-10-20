@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class Like implements HasId{
     private Long id;
     private Long userId;
     private Long postId;

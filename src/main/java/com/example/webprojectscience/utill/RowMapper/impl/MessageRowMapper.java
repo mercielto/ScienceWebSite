@@ -8,13 +8,14 @@ import java.sql.SQLException;
 
 public class MessageRowMapper implements RowMapper<Message> {
     @Override
-    public Message from(ResultSet rs, int rowNum) throws SQLException {
+    public Message from(ResultSet rs) throws SQLException {
         return new Message(
                 rs.getLong("id"),
                 rs.getLong("from_user_id"),
                 rs.getLong("to_user_id"),
                 rs.getString("text"),
-                rs.getDate("date")
+                rs.getDate("date"),
+                rs.getBoolean("read")
         );
     }
 }

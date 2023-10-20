@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Subscription {
+public class Subscription implements HasId {
     public Long id;
     private Long userId;
-    private Long subscribedToUserId;
+    private Long subscriberId;
 }

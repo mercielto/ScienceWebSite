@@ -11,10 +11,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class Message implements HasId{
     private Long id;
     private Long fromUserId;
     private Long toUserId;
     private String text;
     private Date date;
+    private boolean read;
 }

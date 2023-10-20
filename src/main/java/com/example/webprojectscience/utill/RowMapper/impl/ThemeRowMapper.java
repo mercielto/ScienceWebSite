@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ThemeRowMapper implements RowMapper<Theme> {
     @Override
-    public Theme from(ResultSet rs, int rowNum) throws SQLException {
+    public Theme from(ResultSet rs) throws SQLException {
         return new Theme(
                 rs.getLong("id"),
                 rs.getString("name"),

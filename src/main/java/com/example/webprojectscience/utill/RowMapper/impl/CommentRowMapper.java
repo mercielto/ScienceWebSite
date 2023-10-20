@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class CommentRowMapper implements RowMapper<Comment> {
     @Override
-    public Comment from(ResultSet rs, int rowNum) throws SQLException {
+    public Comment from(ResultSet rs) throws SQLException {
         return new Comment(
                 rs.getLong("id"),
                 rs.getLong("user_id"),

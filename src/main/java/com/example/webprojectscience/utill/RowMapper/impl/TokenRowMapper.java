@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class TokenRowMapper implements RowMapper<Token> {
     @Override
-    public Token from(ResultSet rs, int rowNum) throws SQLException {
+    public Token from(ResultSet rs) throws SQLException {
         return new Token(
                 rs.getLong("id"),
                 rs.getString("token"),

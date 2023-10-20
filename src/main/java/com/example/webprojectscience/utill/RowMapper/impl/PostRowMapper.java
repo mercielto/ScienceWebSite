@@ -9,13 +9,14 @@ import java.util.List;
 
 public class PostRowMapper implements RowMapper<Post> {
     @Override
-    public Post from(ResultSet rs, int rowNum) throws SQLException {
+    public Post from(ResultSet rs) throws SQLException {
         return new Post(
                 rs.getLong("id"),
                 rs.getLong("user_id"),
                 rs.getString("path_in_storage"),
                 rs.getLong("theme_id"),
-                (List<String>) rs.getArray("tags")
+                (List<String>) rs.getArray("tags"),
+                rs.getDate("date")
         );
     }
 }

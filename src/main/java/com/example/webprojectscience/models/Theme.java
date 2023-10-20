@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Theme {
+public class Theme implements HasId{
     private Long id;
     private String name;
     private String picturePath;

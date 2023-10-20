@@ -2,53 +2,36 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.extensions.UserDao;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.utill.RowMapper.RowMapper;
 import com.example.webprojectscience.utill.RowMapper.impl.UserRowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDao {
-    protected String SQL_INSERT = "INSERT INTO \"User\" (login, password) VALUES (?, ?)";
-    protected String SQL_UPDATE = "UPDATE \"User\" SET " +
-            "login = ?, password = ? WHERE id = ? RETURNING *";
-    public UserDAOImpl(Connection connection) {
-        super(connection);
-        setTableName("User");
-        rowMapper = new UserRowMapper();
-    }
-    @Override
-    public User update(User entity) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.setLong(3, entity.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
+    public UserDAOImpl(Connection connection, String tableName, RowMapper<User> rowMapper) {
+        super(connection, tableName, rowMapper);
 
-            if (resultSet.wasNull()) {
-                return null;
-            }
-            return rowMapper.from(resultSet, 1);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        SQL_INSERT = "INSERT INTO \"User\"" +
+                " (login, password, name, link, profile_photo_path, description, admin)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?)";
+        SQL_UPDATE = "UPDATE \"User\" SET " +
+                "login = ?, password = ?, name = ?, link = ?, profile_photo_path = ?, description = ?, admin = ?" +
+                " WHERE id = ? RETURNING *";
     }
 
     @Override
-    public boolean insert(User entity) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
-            preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setString(2, entity.getPassword());
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    protected void fillGapsInStatement(PreparedStatement preparedStatement, User entity) throws SQLException {
+        preparedStatement.setString(1, entity.getLogin());
+        preparedStatement.setString(2, entity.getPassword());
+        preparedStatement.setString(3, entity.getName());
+        preparedStatement.setString(4, entity.getLink());
+        preparedStatement.setString(5, entity.getProfilePhotoPath());
+        preparedStatement.setString(6, entity.getDescription());
+        preparedStatement.setBoolean(7, entity.isAdmin());
     }
+
 
     @Override
     public User getByLogin(String login) {

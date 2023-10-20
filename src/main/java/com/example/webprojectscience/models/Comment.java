@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class Comment implements HasId{
     private Long id;
     private Long userId;
     private Long postId;

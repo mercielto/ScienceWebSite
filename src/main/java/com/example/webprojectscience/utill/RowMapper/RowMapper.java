@@ -4,5 +4,5 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface RowMapper<E> {
-    E from(ResultSet rs, int rowNum) throws SQLException;
+    E from(ResultSet rs) throws SQLException;
 }

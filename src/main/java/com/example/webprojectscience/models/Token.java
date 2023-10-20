@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Token {
+public class Token implements HasId{
     private Long id;
     private String value;
     private Long userId;

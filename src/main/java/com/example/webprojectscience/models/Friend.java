@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Friend {
+public class Friend implements HasId {
     private Long id;
     private Long firstUserId;
     private Long secondUserId;

@@ -3,6 +3,7 @@ package com.example.webprojectscience.service;
 import com.example.webprojectscience.models.Token;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.utill.DataBaseManager;
+import com.example.webprojectscience.utill.Encryption;
 import com.example.webprojectscience.utill.Generator;
 
 import javax.servlet.http.Cookie;
@@ -72,7 +73,7 @@ public class AuthorizationService {
 
     public static boolean login(HttpServletRequest request) {
         String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String password = Encryption.encrypt(request.getParameter("password"));
 
         User user = DataBaseManager.getUserDao().getByLogin(login);
         if (user == null) {

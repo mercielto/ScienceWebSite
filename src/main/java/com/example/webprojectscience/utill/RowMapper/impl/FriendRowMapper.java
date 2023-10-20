@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class FriendRowMapper implements RowMapper<Friend> {
     @Override
-    public Friend from(ResultSet rs, int rowNum) throws SQLException {
+    public Friend from(ResultSet rs) throws SQLException {
         return new Friend(
                 rs.getLong("id"),
                 rs.getLong("first_user_id"),

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class LikeRowMapper implements RowMapper<Like> {
     @Override
-    public Like from(ResultSet rs, int rowNum) throws SQLException {
+    public Like from(ResultSet rs) throws SQLException {
         return new Like(
                 rs.getLong("id"),
                 rs.getLong("user_id"),

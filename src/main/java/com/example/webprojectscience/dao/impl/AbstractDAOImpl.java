@@ -1,22 +1,27 @@
 package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.DAO;
+import com.example.webprojectscience.models.HasId;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class AbstractDAOImpl<T> implements DAO<T> {
+abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
     protected Connection connection;
     protected RowMapper<T> rowMapper;
 
-    public String SQL_GET_ALL;
-    public String SQL_GET;
-    public String SQL_DELETE;
+    protected String SQL_GET_ALL;
+    protected String SQL_GET;
+    protected String SQL_DELETE;
+    protected String SQL_UPDATE;
+    protected String SQL_INSERT;
 
-    public AbstractDAOImpl(Connection connection) {
+    public AbstractDAOImpl(Connection connection, String tableName, RowMapper<T> rowMapper) {
         this.connection = connection;
+        setTableName(tableName);
+        this.rowMapper = rowMapper;
     }
 
     public void setTableName(String name) {
@@ -33,10 +38,8 @@ abstract class AbstractDAOImpl<T> implements DAO<T> {
             statement.executeQuery(SQL_GET_ALL);
             ResultSet resultSet = statement.getResultSet();
 
-            int i = 1;
             while (resultSet.next()) {
-                entities.add(rowMapper.from(resultSet, i));
-                i++;
+                entities.add(rowMapper.from(resultSet));
             }
 
             return entities;
@@ -67,10 +70,28 @@ abstract class AbstractDAOImpl<T> implements DAO<T> {
                 return null;
             }
 
-            return rowMapper.from(resultSet, 1);
+            return rowMapper.from(resultSet);
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    protected List<T> getEntitiesByField(String fieldName, Object value) {
+        List<T> entities = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET.formatted(fieldName));
+            preparedStatement.setObject(1, value);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            while (resultSet.next()) {
+                entities.add(rowMapper.from(resultSet));
+            }
+        } catch (SQLException e) {
+            return entities;
+        }
+        return entities;
     }
 
     protected boolean deleteByField(String fieldName, Object value) {
@@ -85,6 +106,40 @@ abstract class AbstractDAOImpl<T> implements DAO<T> {
             return true;
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    public T update(T entity) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+            fillGapsInStatement(preparedStatement, entity);
+
+            // ?
+            preparedStatement = connection.prepareStatement(preparedStatement.toString());
+            preparedStatement.setLong(1, entity.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            if (resultSet.wasNull()) {
+                return null;
+            }
+            return rowMapper.from(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // заполнение всех ? кроме id
+    abstract void fillGapsInStatement(PreparedStatement preparedStatement, T entity) throws SQLException;
+
+    public boolean insert(T entity) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
+            fillGapsInStatement(preparedStatement, entity);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
