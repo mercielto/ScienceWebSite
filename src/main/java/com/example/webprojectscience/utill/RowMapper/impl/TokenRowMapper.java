@@ -11,7 +11,7 @@ public class TokenRowMapper implements RowMapper<Token> {
     public Token from(ResultSet rs) throws SQLException {
         return new Token(
                 rs.getLong("id"),
-                rs.getString("token"),
+                rs.getString("value"),
                 rs.getLong("user_id"),
                 rs.getString("ip_address"));
     }

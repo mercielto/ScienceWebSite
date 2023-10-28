@@ -16,7 +16,7 @@ public class UserRowMapper implements RowMapper<User> {
                 rs.getBoolean("admin"),
                 rs.getString("name"),
                 rs.getString("link"),
-                rs.getString("profile_photo_path"),
+                rs.getString("profile_photo"),
                 rs.getString("description")
         );
     }

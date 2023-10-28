@@ -1,0 +1,71 @@
+.profile-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    padding-top: 2em;
+    gap: 2.5em;
+}
+
+.profile-photo {
+    width: 15rem;
+    height: 15rem;
+}
+
+.profile-subscribe-size {
+    min-width: 12rem;
+    padding: 0.5rem;
+}
+
+#profile-subscribed {
+    background-color: white;
+    color: black;
+}
+
+#profile-notSubscribed {
+    background-color: black;
+    color: white;
+}
+
+.profile-attributes-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 200px));
+    grid-gap: 10px;
+}
+
+.profile-attributes-img {
+    width: 30px;
+    height: 30px;
+}
+
+.profile-attributes {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 200px));
+    grid-gap: 10px;
+}
+
+#profile-description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30rem;
+    max-width: 35rem;
+    min-height: 10rem;
+    text-align: center;
+}
+
+.modal-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 0.7px;
+    text-align: center;
+    min-width: 2rem;
+    min-height: 3rem;
+}
+
+.modal-attributes-text {
+    text-decoration: none;
+    color: black;
+}

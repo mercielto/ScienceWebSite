@@ -1,5 +1,7 @@
 package com.example.webprojectscience.utill;
 
+import com.example.webprojectscience.config.Params;
+
 import com.example.webprojectscience.models.Token;
 import com.example.webprojectscience.models.User;
 
@@ -13,5 +15,4 @@ public class Helpers {
     public static void redirect(HttpServletResponse response, String path) throws IOException {
         response.sendRedirect(path);
     }
-
 }

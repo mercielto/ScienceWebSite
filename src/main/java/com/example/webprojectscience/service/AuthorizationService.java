@@ -115,29 +115,30 @@ public class AuthorizationService {
 
         DataBaseManager.getTokenDao().insert(token);
         Cookie tok = new Cookie("authorized", String.valueOf(token.getValue()));
+        tok.setMaxAge(60 * 60 * 60 * 60);
 
         response.addCookie(tok);
     }
 
-//    public static boolean checkCookies(HttpServletRequest request) {
-//        Cookie[] cookies = request.getCookies();
-//
-//        if (cookies == null) {
-//            return false;
-//        }
-//
-//        for (Cookie cookie : cookies) {
-//            if (cookie.getName().equals("authorized")) {
-//                Token token = DataBaseManager.getTokenDao().getByValue(cookie.getValue());
-//
-//                if (token != null) {
-//                    return true;
-//                }
-//                return false;
-//            }
-//        }
-//        return false;
-//    }
+    /*public static boolean checkCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) {
+            return false;
+        }
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("authorized")) {
+                Token token = DataBaseManager.getTokenDao().getByValue(cookie.getValue());
+
+                if (token != null) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }*/
 
     public static void deleteCookies(HttpServletRequest request, HttpServletResponse response, List<String> names) {
         Cookie[] cookies = request.getCookies();

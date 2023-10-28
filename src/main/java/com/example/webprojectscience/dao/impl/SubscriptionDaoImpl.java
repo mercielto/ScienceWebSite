@@ -7,10 +7,12 @@ import com.example.webprojectscience.utill.RowMapper.impl.SubscriptionRowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class SubscriptionDaoImpl extends AbstractDAOImpl<Subscription> implements SubscriptionDao {
+    protected String SQL_GET_BY_ALL_FIELDS = "SELECT * FROM subscription WHERE user_id = ? AND subscriber_id = ?";
     public SubscriptionDaoImpl(Connection connection, String tableName, RowMapper<Subscription> rowMapper) {
         super(connection, tableName, rowMapper);
 
@@ -21,12 +23,38 @@ public class SubscriptionDaoImpl extends AbstractDAOImpl<Subscription> implement
 
     @Override
     public List<Subscription> getSubscribers(Long subscriberId) {
-        return getEntitiesByField("subscriber_id", subscriberId);
+        return getEntitiesByField("user_id", subscriberId);
     }
 
     @Override
+    public boolean isSubscribed(Long userId, Long subscribedToId) {
+        return getSubsctiption(userId, subscribedToId) != null;
+    }
+
+    @Override
+    public Subscription getSubsctiption(Long userId, Long subscribedToId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_BY_ALL_FIELDS);
+            preparedStatement.setLong(1, subscribedToId);
+            preparedStatement.setLong(2, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            boolean status = rs.next();
+
+            if (!status) {
+                return null;
+            }
+
+            return rowMapper.from(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    @Override
     public List<Subscription> getSubscriptions(Long userId) {
-        return getEntitiesByField("user_id", userId);
+        return getEntitiesByField("subscriber_id", userId);
     }
 
     @Override

@@ -8,10 +8,9 @@ import com.example.webprojectscience.utill.Encryption;
 public class RegistrationService {
     public static boolean registerUser(String login, String password) {
         User user = new User();
-
         user.setLogin(login);
-        String encrypted = Encryption.encrypt(password);
 
+        String encrypted = Encryption.encrypt(password);
         if (encrypted == null) {
             return false;
         }
@@ -19,6 +18,7 @@ public class RegistrationService {
         user.setPassword(encrypted);
         user.setName(login);
         user.setLink(login);
+        user.setProfilePhotoPath("default.jpg");
 
         return DataBaseManager.getUserDao().insert(user);
     }

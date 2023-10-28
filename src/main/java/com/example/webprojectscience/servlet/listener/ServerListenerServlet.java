@@ -1,7 +1,5 @@
 package com.example.webprojectscience.servlet.listener;
 
-
-
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.Params;
 import com.example.webprojectscience.dao.impl.*;

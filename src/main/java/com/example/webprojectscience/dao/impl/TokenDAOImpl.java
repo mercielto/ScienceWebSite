@@ -28,7 +28,7 @@ public class TokenDAOImpl extends AbstractDAOImpl<Token> implements TokenDao {
 
     @Override
     public Token getByValue(String value) {
-        return getByField("token", value);
+        return getByField("value", value);
     }
 
     @Override

@@ -1,0 +1,15 @@
+.theme-main {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    margin-left: 10%;
+    margin-right: 10%;
+    grid-gap: 50px;
+    padding-top: 3em;
+}
+
+.theme-card {
+    width: 20rem;
+    height: 10rem;
+    text-align: center;
+    align-content: center;
+}

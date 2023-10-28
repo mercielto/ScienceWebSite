@@ -1,6 +1,7 @@
 package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
+import com.example.webprojectscience.config.NavbarMapGetter;
 import com.example.webprojectscience.service.RegistrationService;
 import com.example.webprojectscience.utill.Helpers;
 import freemarker.template.Configuration;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
 
 @WebServlet(name = "RegistrationServlet", value = "/register")
 public class RegistrationServlet extends HttpServlet {
@@ -22,9 +25,10 @@ public class RegistrationServlet extends HttpServlet {
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("registration.ftl");
-
+        Map<String, Object> params = NavbarMapGetter.getMap(req);
+        params.put("option", Optional.empty());
         try {
-            temp.process(null, resp.getWriter());
+            temp.process(params, resp.getWriter());
         } catch (TemplateException e) {
             throw new RuntimeException(e);
         }

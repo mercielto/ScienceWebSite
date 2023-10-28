@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("text/html");
 
         if (AuthorizationService.authorizeByCookieToken(req)) {
-            Helpers.redirect(resp, req.getContextPath() + "/vote");
+            Helpers.redirect(resp, req.getContextPath() + "/menu");
             return;
         }
 
@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
                 AuthorizationService.deleteCookies(req, resp, List.of("authorized"));
             }
 
-            Helpers.redirect(resp, req.getContextPath() + "/vote");
+            Helpers.redirect(resp, req.getContextPath() + "/themes");
         } else {
             Helpers.redirect(resp, req.getContextPath() + "/login");
         }

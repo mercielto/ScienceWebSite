@@ -1,0 +1,9 @@
+.form-position {
+    width: 400px; /* Ширина слоя в пикселах */
+    margin: 0 auto; /* Отступ слева и справа */
+    padding: 100px; /* Поля вокруг текста */
+    text-align: left;
+    border: black;
+    border: 1px;
+}
+

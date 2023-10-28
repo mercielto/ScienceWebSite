@@ -83,13 +83,12 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
             preparedStatement.setObject(1, value);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
 
             while (resultSet.next()) {
                 entities.add(rowMapper.from(resultSet));
             }
         } catch (SQLException e) {
-            return entities;
+
         }
         return entities;
     }

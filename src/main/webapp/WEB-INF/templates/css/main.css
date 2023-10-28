@@ -1,0 +1,61 @@
+.header-nav-settings {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    flex-basis: 100px;
+    gap: 10px;
+    padding: 0.5em;
+    border: solid;
+}
+
+.header-nav-text {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+a:hover {
+    text-decoration: none;
+    color:#000000!important;
+}
+
+
+#header-title {
+    margin: 0 auto;
+    padding-top: 1em;
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.header-nav-authorization {
+    border: solid 0.7px;
+    padding: 0.3rem;
+    text-align: center;
+}
+
+.header-main {
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+.mini-profile {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.mini-profile-dropdown {
+    background-color: white;
+    border: none;
+}
+
+.mini-profile-photo {
+    width: 40px;
+    height: 40px;
+}
