@@ -35,6 +35,10 @@ public class ServerListenerServlet implements ServletContextListener {
                 Params.themeTableName, new ThemeRowMapper()));
         DataBaseManager.setSubscriptionDao(new SubscriptionDaoImpl(ConnectionSingleton.getConnection(),
                 Params.subscriptionTableName, new SubscriptionRowMapper()));
+        DataBaseManager.setQuestionDao(new QuestionDaoImpl(ConnectionSingleton.getConnection(),
+                Params.forumQuestionTableName, new QuestionRowMapper()));
+        DataBaseManager.setQuestionAnswerDao(new QuestionAnswerDaoImpl(ConnectionSingleton.getConnection(),
+                Params.forumQuestionAnswerTableName, new QuestionAnswerRowMapper()));
 //        DataBaseManager.setMessage()
     }
 }

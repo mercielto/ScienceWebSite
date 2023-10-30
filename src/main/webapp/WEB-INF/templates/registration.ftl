@@ -12,16 +12,16 @@
         </style>
     </head>
     <body>
-        <@navBar.navBbar option=option contextPath=contextPath helpers=helpers/>
+        <@navBar.navBar option=option contextPath=contextPath imageBuilder=imageBuilder/>
 
-        <form method="post" class="form-position">
-            <p>Enter login:</p>
-            <input type='text' name='login'>
-            <p>Enter password:</p>
-            <input type='text' name='password1'>
-            <p>Repeat password:</p>
-            <input type='text' name='password2'><br>
-            <input type="submit" value="Register"><br>
+        <form method="post" class="form-position rounded">
+            <label class="rounded">Enter login:</label>
+            <input class="rounded" type='text' name='login'>
+            <label class="rounded" >Enter password:</label>
+            <input class="rounded" type='text' name='password1'>
+            <label class="rounded">Repeat password:</label>
+            <input class="rounded" type='text' name='password2'><br>
+            <input class="login-registration-button rounded" type="submit" value="Register"><br>
         </form>
     </body>
 </html>

@@ -12,4 +12,8 @@ public class ImageBuilder {
     public String getThemePhotoInBytes(Theme theme) {
         return ImageProcessor.encodeImage(Params.storagePath + "theme_images\\" + theme.getPicturePath());
     }
+
+    public String getServicePhotoInBytes(String name) {
+        return ImageProcessor.encodeImage(Params.storagePath + "service_files\\img\\" + name);
+    }
 }

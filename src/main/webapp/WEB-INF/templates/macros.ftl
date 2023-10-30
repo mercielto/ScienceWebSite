@@ -10,7 +10,7 @@
 </#macro>
 
 
-<#macro profileAttribute listOfUser topic helpers>
+<#macro profileAttribute listOfUser topic imageBuilder>
     <div>
         <p data-bs-toggle="modal" data-bs-target="#modal${topic}" class="modal-text">
             ${topic}
@@ -26,7 +26,7 @@
                         <div class="profile-attributes-list">
                             <#list listOfUser as user>
                                 <a href="${contextPath}/profile/${user.getLink()}" class="modal-attributes-text">
-                                    <img src="${helpers.getProfilePhotoInBytes(user)}" class="profile-attributes-img rounded-circle" alt="ava">
+                                    <img src="${imageBuilder.getProfilePhotoInBytes(user)}" class="profile-attributes-img rounded-circle" alt="ava">
                                     ${user.getName()}
                                 </a>
                             </#list>

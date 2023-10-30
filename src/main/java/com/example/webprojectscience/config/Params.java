@@ -14,6 +14,8 @@ public class Params {
     public static String themeTableName = "theme";
     public static String tokenTableName = "token";
     public static String likeTableName = "Like";
+    public static String forumQuestionTableName = "forum_question";
+    public static String forumQuestionAnswerTableName = "forum_answer";
 
     public static String storagePath = "C:\\Works\\WebServer\\storage\\";
 }

@@ -1,4 +1,4 @@
-<#macro navBar option helpers contextPath>
+<#macro navBar option imageBuilder contextPath>
     <header class="header-main">
         <a href="" class="header-nav-text">
             <h1 id="header-title">MABR & DABR</h1>
@@ -16,7 +16,7 @@
                 <div class="header-nav-authorization rounded-pill">
                     <div class="dropdown mini-profile">
                         <a href="${contextPath}/profile/${user.getLink()}">
-                            <img class="rounded-circle mini-profile-photo" src="${helpers.getProfilePhotoInBytes(user)}" alt=".">
+                            <img class="rounded-circle mini-profile-photo" src="${imageBuilder.getProfilePhotoInBytes(user)}" alt=".">
                         </a>
                         <a class="header-nav-text dropdown-toggle " role="button" data-toggle="dropdown">
                             ${user.getName()}

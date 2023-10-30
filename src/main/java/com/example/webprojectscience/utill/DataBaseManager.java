@@ -14,6 +14,8 @@ public class DataBaseManager {
     private static PostDao postDao;
     private static SubscriptionDao subscriptionDao;
     private static ThemeDao themeDao;
+    private static QuestionDao questionDao;
+    private static QuestionAnswerDao questionAnswerDao;
 //    private static MessageDao
     public static void setUserDao(UserDao dao) {
         userDao = dao;
@@ -77,5 +79,21 @@ public class DataBaseManager {
 
     public static void setThemeDao(ThemeDao themeDao) {
         DataBaseManager.themeDao = themeDao;
+    }
+
+    public static QuestionDao getQuestionDao() {
+        return questionDao;
+    }
+
+    public static void setQuestionDao(QuestionDao questionDao) {
+        DataBaseManager.questionDao = questionDao;
+    }
+
+    public static QuestionAnswerDao getQuestionAnswerDao() {
+        return questionAnswerDao;
+    }
+
+    public static void setQuestionAnswerDao(QuestionAnswerDao questionAnswerDao) {
+        DataBaseManager.questionAnswerDao = questionAnswerDao;
     }
 }

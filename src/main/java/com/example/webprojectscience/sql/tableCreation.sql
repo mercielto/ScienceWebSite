@@ -38,7 +38,7 @@ CREATE TABLE Post (
     user_id bigint not null,
     path_in_storage varchar not null,
     theme_id bigint not null,
-    tags varchar(10)[],
+    tags varchar(30)[],
     date date not null default CURRENT_TIMESTAMP,
 
     foreign key (user_id) references "User" (id),
@@ -87,3 +87,28 @@ CREATE TABLE Comment (
     foreign key (post_id) references Post (id),
     foreign key (answered) references Comment (id)
 );
+
+CREATE TABLE Forum_Question (
+    id bigserial primary key,
+    user_id bigint not null,
+    date date not null default CURRENT_TIMESTAMP,
+    text varchar(500) not null,
+    tags varchar(30)[],
+    theme_id bigint not null,
+    link varchar not null,
+    main_question varchar not null,
+
+    foreign key (user_id) references "User" (id),
+    foreign key (theme_id) references Theme (id)
+);
+
+CREATE TABLE Forum_Answer (
+      id bigserial primary key,
+      user_id bigint not null,
+      question_id bigint not null,
+      text varchar(300) not null,
+      date date not null default CURRENT_TIMESTAMP,
+
+      foreign key (user_id) references "User" (id),
+      foreign key (question_id) references Forum_Question (id)
+)

@@ -14,11 +14,11 @@
     <@macros.basicDownloadFiles/>
 </head>
 <body>
-    <@navBar.navBar option=option contextPath=contextPath helpers=helpers/>
+    <@navBar.navBar option=option contextPath=contextPath imageBuilder=imageBuilder/>
 
     <main class="profile-main">
         <h2 id="profile-name">${profileUser.getName()}</h2>
-        <img class="profile-photo rounded-circle" src="${helpers.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
+        <img class="profile-photo rounded-circle" src="${imageBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
 
         <#assign disabled="disabled">
         <#if option.isPresent()>
@@ -58,10 +58,10 @@
 
         <div class="profile-attributes">
 
-            <@macros.profileAttribute helpers=helpers listOfUser=profileUserSubscriptions topic="Subscribtions"/>
-            <@macros.profileAttribute helpers=helpers listOfUser=profileUserSubscriber topic="Subscriber"/>
-            <@macros.profileAttribute helpers=helpers listOfUser=profileUserLikes topic="Likes"/>
-            <@macros.profileAttribute helpers=helpers listOfUser=profileUserPosts topic="Posts"/>
+            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserSubscriptions topic="Subscribtions"/>
+            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserSubscriber topic="Subscriber"/>
+            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserLikes topic="Likes"/>
+            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserPosts topic="Posts"/>
 
         </div>
     </main>

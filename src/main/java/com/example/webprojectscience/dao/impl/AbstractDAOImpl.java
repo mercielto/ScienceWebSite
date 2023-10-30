@@ -88,7 +88,8 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
                 entities.add(rowMapper.from(resultSet));
             }
         } catch (SQLException e) {
-
+            System.err.println(e);
+            return entities;
         }
         return entities;
     }
@@ -128,7 +129,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
         }
     }
 
-    // заполнение всех ? кроме id
+    // заполнение всех кроме id
     abstract void fillGapsInStatement(PreparedStatement preparedStatement, T entity) throws SQLException;
 
     public boolean insert(T entity) {

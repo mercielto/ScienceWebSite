@@ -1,0 +1,129 @@
+.forum-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    margin-top: 2rem;
+}
+
+.forum-settings {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: solid 0.7px;
+    height: 500px;
+    padding: 1rem;
+    grid-row-gap: 10px;
+
+}
+
+.forum-settings-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.forum-settings-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.forum-settings-theme-label {
+    margin-left: 1rem;
+}
+
+#forum-settings-title {
+    align-content: center;
+}
+
+p {
+    margin: 0;
+}
+
+.forum-questions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.forum-questions-img {
+    width: 80px;
+    height: 80px;
+}
+
+.forum-questions-single {
+    width: 1000px;
+    height: 100px;
+    border: solid 1px;
+
+    display: grid;
+    grid-template-columns: 1fr 7.5fr 1.5fr 1fr;
+    column-gap: 10px;
+
+    margin-top: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.forum-questions-img-href {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.forum-question-title {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.forum-questions-pagination {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 2rem;
+
+
+}
+
+.forum-questions-button {
+    width: 30px;
+    height: 40px;
+    border-radius: 10px;
+    border: solid 0.7px;
+    background-color: white;
+}
+
+.forum-questions-side-button {
+    width: 20px;
+    height: 20px;
+}
+
+#forum-questions-button-active {
+    background-color: rgba(147,62,0,0.69);
+}
+
+.forum-questions-comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.forum-questions-comment-img {
+    width: 30px;
+    height: 30px;
+}
+
+.forum-questions-comment-count {
+    font-size: 1.5rem;
+    padding-bottom: 4px;
+}
