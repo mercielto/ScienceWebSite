@@ -39,10 +39,14 @@ public class ProfileHandlerService {
     }
 
     public static List<Like> getLikes(User user) {
-        return DataBaseManager.getLikeDao().getLikesById(user.getId());
+        return DataBaseManager.getLikeDao().getLikesByUserId(user.getId());
     }
 
     public static List<Post> getPosts(User user) {
         return DataBaseManager.getPostDao().getByUserId(user.getId());
+    }
+
+    public static User getUserByLink(String link) {
+        return DataBaseManager.getUserDao().getByLink(link);
     }
 }

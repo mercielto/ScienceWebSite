@@ -40,6 +40,8 @@ CREATE TABLE Post (
     theme_id bigint not null,
     tags varchar(30)[],
     date date not null default CURRENT_TIMESTAMP,
+    title varchar,
+    link varchar,
 
     foreign key (user_id) references "User" (id),
     foreign key (theme_id) references Theme (id)
@@ -92,7 +94,7 @@ CREATE TABLE Forum_Question (
     id bigserial primary key,
     user_id bigint not null,
     date date not null default CURRENT_TIMESTAMP,
-    text varchar(500) not null,
+    text varchar not null,
     tags varchar(30)[],
     theme_id bigint not null,
     link varchar not null,

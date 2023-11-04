@@ -10,10 +10,11 @@
 </#macro>
 
 
-<#macro profileAttribute listOfUser topic imageBuilder>
+<#macro profileAttribute listOfUser topic fileBuilder>
     <div>
         <p data-bs-toggle="modal" data-bs-target="#modal${topic}" class="modal-text">
             ${topic}
+            ${listOfUser?size}
         </p>
 
         <div class="modal fade" id="modal${topic}" tabindex="-1">
@@ -26,18 +27,63 @@
                         <div class="profile-attributes-list">
                             <#list listOfUser as user>
                                 <a href="${contextPath}/profile/${user.getLink()}" class="modal-attributes-text">
-                                    <img src="${imageBuilder.getProfilePhotoInBytes(user)}" class="profile-attributes-img rounded-circle" alt="ava">
+                                    <img src="${fileBuilder.getProfilePhotoInBytes(user)}" class="profile-attributes-img rounded-circle" alt="ava">
                                     ${user.getName()}
                                 </a>
                             </#list>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="button" class="btn btn-primary">Сохранить изменения</button>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</#macro>
+
+<#macro settings themes>
+    <div class="forum-settings rounded">
+        <p id="forum-settings-title">Settings</p>
+
+        <div class="forum-settings-date">
+            <span class="date-choose">
+                <label>
+                    From
+                    <input type="date" name="date-from">
+                </label>
+                <label>
+                    to
+                    <input type="date" name="date-to">
+                </label>
+            </span>
+        </div>
+
+        Category:
+        <div class="forum-settings-theme">
+            <#list themes as theme>
+                <label class="forum-settings-theme-label">
+                    <input type="checkbox" name="${theme.getName()}" class="rounded-circle">
+                    ${theme.getName()}
+                </label>
+            </#list>
+        </div>
+
+
+        <p>
+            <label>
+                Tags:
+                <input type="text">
+            </label>
+        </p>
+
+        <p>
+            <label>
+                Number of responses
+                <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+            </label>
+        </p>
+
+        <#nested>
+
+        <input type="submit" value="Filter">
+
     </div>
 </#macro>

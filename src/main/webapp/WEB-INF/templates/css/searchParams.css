@@ -1,0 +1,33 @@
+.forum-settings {
+    display: flex;
+    flex-direction: column;
+    border: solid 0.7px;
+    height: 500px;
+    padding: 1rem;
+    gap: 10px;
+
+}
+
+.forum-settings-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.forum-settings-theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.forum-settings-theme-label {
+    margin-left: 1rem;
+}
+
+#forum-settings-title {
+    display: flex;
+    align-content: center;
+    font-size: 1.5rem;
+    justify-content: center;
+}

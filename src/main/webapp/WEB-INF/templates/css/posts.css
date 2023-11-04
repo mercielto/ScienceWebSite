@@ -1,0 +1,100 @@
+.main-posts {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: left;
+    gap: 2rem;
+    margin-left: 5rem;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.posts-single {
+    border: solid 0.7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 800px;
+    height: 600px;
+
+    padding: 2rem;
+}
+
+.posts-single-header {
+    display: grid;
+    grid-template-columns: 2fr 15fr;
+}
+
+.posts-single-header-img {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.posts-single-title {
+    font-size: 2rem;
+}
+
+.posts-single-user-img {
+    width: 60px;
+    height: 60px;
+}
+
+.posts-single-header-names {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 2rem;
+}
+
+.posts-single-text {
+    overflow: hidden;
+}
+
+.posts-single-tags {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+}
+
+.params {
+    font-size: 1.2rem;
+
+    padding-right: 3rem;
+}
+
+.posts-single-theme {
+    display: flex;
+    justify-content: right;
+}
+
+.posts-single-params {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    justify-content: left;
+}
+
+.posts-single-params-img {
+    width: 40px;
+    height: 40px;
+}
+
+.posts-single-params-btn {
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+
+.forum-settings {
+    height: 580px!important;
+}

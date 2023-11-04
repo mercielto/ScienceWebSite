@@ -13,13 +13,13 @@
     <@macros.basicDownloadFiles/>
 </head>
 <body>
-  <@navBar.navBar option=option imageBuilder=imageBuilder contextPath=contextPath/>
+  <@navBar.navBar option=option fileBuilder=fileBuilder contextPath=contextPath/>
 
   <main class="theme-main">
     <#list themes as theme>
     <div class="">
       <a href="${contextPath}/themes/${theme.getName()}">
-        <img src="${imageBuilder.getThemePhotoInBytes(theme)}"
+        <img src="${fileBuilder.getThemePhotoInBytes(theme)}"
         class="theme-card rounded" alt="${theme.getName()}">
       </a>
     </div>
@@ -27,7 +27,7 @@
 
     <div>
       <a href="${contextPath}/themes/${other.getName()}">
-        <img src="${imageBuilder.getThemePhotoInBytes(other)}"
+        <img src="${fileBuilder.getThemePhotoInBytes(other)}"
              class="theme-card rounded" alt="${other.getName()}">
       </a>
     </div>

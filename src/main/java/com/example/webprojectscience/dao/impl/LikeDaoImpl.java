@@ -24,7 +24,12 @@ public class LikeDaoImpl extends AbstractDAOImpl<Like> implements LikeDao {
     }
 
     @Override
-    public List<Like> getLikesById(Long id) {
+    public List<Like> getLikesByUserId(Long id) {
         return getEntitiesByField("user_id", id);
+    }
+
+    @Override
+    public List<Like> getLikesByPostId(Long postId) {
+        return getEntitiesByField("post_id", postId);
     }
 }

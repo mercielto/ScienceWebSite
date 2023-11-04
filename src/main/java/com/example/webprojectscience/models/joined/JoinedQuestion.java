@@ -1,5 +1,9 @@
-package com.example.webprojectscience.models;
+package com.example.webprojectscience.models.joined;
 
+import com.example.webprojectscience.models.Question;
+import com.example.webprojectscience.models.QuestionAnswer;
+import com.example.webprojectscience.models.Theme;
+import com.example.webprojectscience.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,18 +22,18 @@ public class JoinedQuestion {
     private Date date;
     private String text;
     private List<String> tags;
-    private Long themeId;
+    private Theme theme;
     private String link;
     private List<QuestionAnswer> questionAnswers;
     private String mainQuestion;
 
-    public JoinedQuestion(Question question, User user, List<QuestionAnswer> q) {
+    public JoinedQuestion(Question question, User user, List<QuestionAnswer> q, Theme theme1) {
         id = question.getId();
         this.user = user;
         date = question.getDate();
         text = question.getText();
         tags = question.getTags();
-        themeId = question.getThemeId();
+        theme = theme1;
         link = question.getLink();
         questionAnswers = q;
         mainQuestion = question.getMainQuestion();

@@ -14,11 +14,11 @@
     <@macros.basicDownloadFiles/>
 </head>
 <body>
-    <@navBar.navBar option=option contextPath=contextPath imageBuilder=imageBuilder/>
+    <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
     <main class="profile-main">
         <h2 id="profile-name">${profileUser.getName()}</h2>
-        <img class="profile-photo rounded-circle" src="${imageBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
+        <img class="profile-photo rounded-circle" src="${fileBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
 
         <#assign disabled="disabled">
         <#if option.isPresent()>
@@ -26,8 +26,8 @@
             <#assign user = option.get()>
 
             <#if user.getId() == profileUser.getId()>
-                <a href="${contextPath}/profile/${user.getLink()}/settings">
-                    <button name="settings" id="profile-notSubscribed"class="rounded profile-subscribe-size">Settings</button>
+                <a href="${contextPath}/profile/settings/${user.getLink()}">
+                    <button name="settings" id="profile-notSubscribed" class="rounded profile-subscribe-size">Settings</button>
                 </a>
             <#else>
                 <form method="post">
@@ -58,10 +58,10 @@
 
         <div class="profile-attributes">
 
-            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserSubscriptions topic="Subscribtions"/>
-            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserSubscriber topic="Subscriber"/>
-            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserLikes topic="Likes"/>
-            <@macros.profileAttribute imageBuilder=imageBuilder listOfUser=profileUserPosts topic="Posts"/>
+            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserSubscriptions topic="Subscribtions"/>
+            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserSubscriber topic="Subscribers"/>
+            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserLikes topic="Likes"/>
+            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserPosts topic="Posts"/>
 
         </div>
     </main>

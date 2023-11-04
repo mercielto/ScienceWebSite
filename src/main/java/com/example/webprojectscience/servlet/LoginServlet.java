@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
+        resp.setCharacterEncoding("UTF-8");
 
         if (AuthorizationService.authorizeByCookieToken(req)) {
             Helpers.redirect(resp, req.getContextPath() + "/menu");

@@ -4,8 +4,10 @@ import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
 import com.example.webprojectscience.models.Theme;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.service.AuthorizationService;
-import com.example.webprojectscience.service.ThemesHandlerService;
+import com.example.webprojectscience.service.PostsHandlerService;
+import com.example.webprojectscience.utill.DataBaseManager;
 import com.example.webprojectscience.utill.FileBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,25 +22,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet(name = "MainServlet", value = "/themes")
-public class MainServlet extends HttpServlet {
+@WebServlet(name = "PostListServlet", value = "/posts")
+public class PostListServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        Optional<User> user = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req)); /*Optional.ofNullable(DataBaseManager.getUserDao().getByLogin("1"));*/
-        List<Theme> themes = ThemesHandlerService.getAllThemes();
-        Theme other = ThemesHandlerService.getOther();
-
-        Configuration cfg = FreemarkerConfigSingleton.getConfig();
-        Template temp = cfg.getTemplate("themes.ftl");
+        Optional<User> user =  Optional.of(AuthorizationService.getAuthorizedUser(req));
+        List<JoinedPost> posts = PostsHandlerService.getJoinedPosts();
+        List<Theme> themes = DataBaseManager.getThemeDao().getAll();
 
         Map<String, Object> params = NavbarMapGetter.getMap(req);
         params.put("option", user);
+        params.put("posts", posts);
         params.put("themes", themes);
-        params.put("other", other);
-        params.put("helpers", new FileBuilder());
+
+
+        Configuration cfg = FreemarkerConfigSingleton.getConfig();
+        Template temp = cfg.getTemplate("posts.ftl");
 
         try {
             temp.process(params, resp.getWriter());

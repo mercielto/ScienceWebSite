@@ -6,5 +6,6 @@ import com.example.webprojectscience.models.Like;
 import java.util.List;
 
 public interface LikeDao extends DAO<Like> {
-    List<Like> getLikesById(Long id);
+    List<Like> getLikesByUserId(Long id);
+    List<Like> getLikesByPostId(Long postId);
 }

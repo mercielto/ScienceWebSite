@@ -64,4 +64,9 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
         return getEntitiesByField("theme_id", id);
     }
 
+    @Override
+    public Question getByLink(String link) {
+        return getByField("link", link);
+    }
+
 }

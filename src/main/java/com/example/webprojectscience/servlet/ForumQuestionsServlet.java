@@ -2,13 +2,10 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.dao.DAO;
-import com.example.webprojectscience.models.JoinedQuestion;
-import com.example.webprojectscience.models.Question;
+import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.ForumQuestionsSelectorService;
-import com.example.webprojectscience.utill.DataBaseManager;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -25,6 +22,7 @@ public class ForumQuestionsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
+        resp.setCharacterEncoding("UTF-8");
 
         User user = AuthorizationService.getAuthorizedUser(req);
 

@@ -15,9 +15,9 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
     public PostDaoImpl(Connection connection, String tableName, RowMapper<Post> rowMapper) {
         super(connection, tableName, rowMapper);
 
-        SQL_INSERT = "INSERT INTO post (user_id, path_in_storage, theme_id, tags, date) values (?, ?, ?, ?, ?)";
+        SQL_INSERT = "INSERT INTO post (user_id, path_in_storage, theme_id, tags, date, title, link) values (?, ?, ?, ?, ?, ?, ?)";
         SQL_UPDATE = "UPDATE post SET user_id = ?, path_in_storage = ?, theme_id = ?," +
-                " tags = ?, date = ? WHERE id = ?";
+                " tags = ?, date = ?, title = ?, link = ? WHERE id = ?";
     }
 
 
@@ -53,5 +53,7 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
         preparedStatement.setString(2, entity.getPathInStorage());
         preparedStatement.setLong(3, entity.getThemeId());
         preparedStatement.setArray(4, (Array) entity.getTags());
+        preparedStatement.setString(5, entity.getTitle());
+        preparedStatement.setString(6, entity.getLink());
     }
 }

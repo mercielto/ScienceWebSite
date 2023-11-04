@@ -1,6 +1,6 @@
 package com.example.webprojectscience.service;
 
-import com.example.webprojectscience.models.JoinedQuestion;
+import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.models.Question;
 import com.example.webprojectscience.models.Theme;
 import com.example.webprojectscience.utill.DataBaseManager;
@@ -34,8 +34,12 @@ public class ForumQuestionsSelectorService {
             joinedQuestions.add(new JoinedQuestion(
                     question,
                     DataBaseManager.getUserDao().getById(question.getUserId()),
-                    DataBaseManager.getQuestionAnswerDao().getByQuestionId(question.getId())
+                    DataBaseManager.getQuestionAnswerDao().getByQuestionId(question.getId()),
+                    DataBaseManager.getThemeDao().getById(question.getThemeId())
             ));
+        }
+        if (count > joinedQuestions.size()) {
+            count = joinedQuestions.size();
         }
         return joinedQuestions.subList(0, count);
     }

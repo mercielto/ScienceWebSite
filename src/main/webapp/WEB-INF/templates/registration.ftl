@@ -12,7 +12,7 @@
         </style>
     </head>
     <body>
-        <@navBar.navBar option=option contextPath=contextPath imageBuilder=imageBuilder/>
+        <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
         <form method="post" class="form-position rounded">
             <label class="rounded">Enter login:</label>

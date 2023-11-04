@@ -9,7 +9,6 @@ import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.ProfileHandlerService;
 import com.example.webprojectscience.utill.DataBaseManager;
-import com.example.webprojectscience.utill.ImageBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -19,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +28,10 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
+        resp.setCharacterEncoding("UTF-8");
 
         String link = req.getPathInfo().substring(1);
-        User profileUser = DataBaseManager.getUserDao().getByLink(link);
+        User profileUser = ProfileHandlerService.getUserByLink(link);
 
         if (profileUser == null) {
             resp.sendError(404);
