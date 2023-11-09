@@ -12,14 +12,16 @@ import java.util.List;
 
 public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements QuestionDao {
     protected final String SQL_GET_BY_DATE = "SELECT * FROM forum_question WHERE date <= ? AND date >= ?";
+    protected final String SQL_GET_ALL_ANSWERED = "SELECT * FROM forum_question WHERE answered_answer_id is not null";
 
     public QuestionDaoImpl(Connection connection, String tableName, RowMapper<Question> rowMapper) {
         super(connection, tableName, rowMapper);
 
-        SQL_INSERT = "INSERT INTO forum_question (user_id, date, text, tags, theme_id, link, main_question)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?)";
+        SQL_INSERT = "INSERT INTO forum_question (user_id, date, text, tags, theme_id," +
+                " link, main_question, answered_answer_id)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         SQL_UPDATE = "UPDATE forum_question SET user_id = ?, date = ?, text = ?," +
-                " tags = ?, theme_id = ?, link = ?, main_question = ? WHERE id = ?";
+                " tags = ?, theme_id = ?, link = ?, main_question = ?, answered_answer_id = ? WHERE id = ?";
     }
 
     @Override
@@ -31,6 +33,7 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
         preparedStatement.setLong(5, entity.getThemeId());
         preparedStatement.setString(6, entity.getLink());
         preparedStatement.setString(7, entity.getMainQuestion());
+        preparedStatement.setLong(8, entity.getAnswerId());
     }
 
     @Override
@@ -62,6 +65,22 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
     @Override
     public List<Question> getByThemeId(Long id) {
         return getEntitiesByField("theme_id", id);
+    }
+
+    @Override
+    public List<Question> getAllAnswered() {
+        List<Question> questions = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_ANSWERED);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                questions.add(rowMapper.from(rs));
+            }
+            return questions;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

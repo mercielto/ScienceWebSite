@@ -14,6 +14,7 @@ CREATE TABLE Token (
     value varchar not null unique,
     user_id bigint not null,
     ip_address varchar not null,
+    session bool not null default false,
 
     foreign key (user_id) references "User" (id)
 );
@@ -83,11 +84,9 @@ CREATE TABLE Comment (
     post_id bigint not null,
     text varchar(300) not null,
     date date not null,
-    answered bigint,
 
     foreign key (user_id) references "User" (id),
-    foreign key (post_id) references Post (id),
-    foreign key (answered) references Comment (id)
+    foreign key (post_id) references Post (id)
 );
 
 CREATE TABLE Forum_Question (
@@ -99,9 +98,11 @@ CREATE TABLE Forum_Question (
     theme_id bigint not null,
     link varchar not null,
     main_question varchar not null,
+    answered_answer_id bigint,
 
     foreign key (user_id) references "User" (id),
-    foreign key (theme_id) references Theme (id)
+    foreign key (theme_id) references Theme (id),
+    foreign key (answered_answer_id) references Forum_Answer (id)
 );
 
 CREATE TABLE Forum_Answer (

@@ -1,13 +1,12 @@
 <#macro navBar option fileBuilder contextPath>
     <header class="header-main">
-        <a href="" class="header-nav-text">
+        <a href="${contextPath}/" class="header-nav-text">
             <h1 id="header-title">MABR & DABR</h1>
         </a>
         <nav class="header-nav-settings rounded">
             <a href="${contextPath}/posts" class="header-nav-text">Posts</a>
             <a href="${contextPath}/forum" class="header-nav-text">Forum</a>
             <a href="#" class="header-nav-text">Name</a>
-
 
             <#if option.isPresent()>
 
@@ -22,9 +21,10 @@
                             ${user.getName()}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Exit</a></li>
+                            <li><a class="dropdown-item" href="${contextPath}/my-posts">My posts</a></li>
+                            <li><a class="dropdown-item" href="${contextPath}/my-questions">My questions</a></li>
+                            <li><a class="dropdown-item" href="${contextPath}/profile/settings/${user.getLink()}">Profile settings</a></li>
+                            <li><a class="dropdown-item" href="${contextPath}/logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>

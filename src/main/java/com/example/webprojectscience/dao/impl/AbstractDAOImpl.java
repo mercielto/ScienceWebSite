@@ -72,7 +72,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
 
             return rowMapper.from(resultSet);
         } catch (SQLException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,8 +88,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
                 entities.add(rowMapper.from(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println(e);
-            return entities;
+            throw new RuntimeException(e);
         }
         return entities;
     }
@@ -105,7 +104,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
             }
             return true;
         } catch (SQLException e) {
-            return false;
+            throw new RuntimeException(e);
         }
     }
 

@@ -28,7 +28,8 @@ public class QuestionRowMapper implements RowMapper<Question> {
                 List.of(tags),
                 rs.getLong("theme_id"),
                 rs.getString("link"),
-                rs.getString("main_question")
+                rs.getString("main_question"),
+                rs.getLong("answered_answer_id")
         );
     }
 }

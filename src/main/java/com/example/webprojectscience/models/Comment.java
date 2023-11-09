@@ -17,5 +17,4 @@ public class Comment implements HasId{
     private Long postId;
     private String text;
     private Date date;
-    private Long answered;  // комментарий на комментарий Comment.id
 }

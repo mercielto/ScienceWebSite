@@ -33,7 +33,7 @@ public class ForumAnswersServlet extends HttpServlet {
         String link = req.getPathInfo().substring(1);
         JoinedQuestion joinedQuestion = ForumAnswerHandlerService.getJoinedQuestionByLink(link);
         List<JoinedAnswer> answers = ForumAnswerHandlerService.getJoinedAnswersByQuestionId(joinedQuestion.getId());
-        Optional<User> optional = Optional.of(AuthorizationService.getAuthorizedUser(req));
+        Optional<User> optional = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
         Map<String, Object> params = NavbarMapGetter.getMap(req);
         params.put("answers", answers);

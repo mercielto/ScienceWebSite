@@ -13,6 +13,8 @@ public class TokenRowMapper implements RowMapper<Token> {
                 rs.getLong("id"),
                 rs.getString("value"),
                 rs.getLong("user_id"),
-                rs.getString("ip_address"));
+                rs.getString("ip_address"),
+                rs.getBoolean("session")
+        );
     }
 }

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,4 +20,8 @@ public class User implements HasId {
     private String link;
     private String profilePhotoPath;    // ссылка на фото в хранилище
     private String description;
+
+    public boolean equals(User obj) {
+        return Objects.equals(obj.getId(), id);
+    }
 }

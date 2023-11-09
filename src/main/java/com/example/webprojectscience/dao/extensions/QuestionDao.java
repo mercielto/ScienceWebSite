@@ -9,5 +9,6 @@ import java.util.List;
 public interface QuestionDao extends DAO<Question> {
     List<Question> getByDate(Date from, Date to);
     List<Question> getByThemeId(Long id);
+    List<Question> getAllAnswered();
     Question getByLink(String link);
 }

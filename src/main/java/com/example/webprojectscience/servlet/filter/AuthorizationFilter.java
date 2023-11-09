@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebFilter(servletNames = {"ForumAnswersServlet", "ProfileServlet", "ProfileSettingsServlet"})
+@WebFilter(servletNames = {"LoginServlet", "RegistrationServlet"})
 public class AuthorizationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,7 +24,11 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         Optional<User> user = Optional.ofNullable(AuthorizationService.getAuthorizedUser(request));
-        request.setAttribute("user", user);
+
+        if (user.isPresent()) {
+            Helpers.redirect(response, request.getContextPath());
+            return;
+        }
 
         filterChain.doFilter(request, response);
     }

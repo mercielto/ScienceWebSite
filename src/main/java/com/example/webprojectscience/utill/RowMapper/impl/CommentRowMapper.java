@@ -14,8 +14,7 @@ public class CommentRowMapper implements RowMapper<Comment> {
                 rs.getLong("user_id"),
                 rs.getLong("post_id"),
                 rs.getString("text"),
-                rs.getDate("date"),
-                rs.getLong("answered")
+                rs.getDate("date")
         );
     }
 }

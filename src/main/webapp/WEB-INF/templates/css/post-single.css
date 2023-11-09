@@ -1,0 +1,10 @@
+.posts-single {
+    height: 100%!important;
+}
+
+.post-single {
+    display: grid;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}

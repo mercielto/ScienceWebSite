@@ -2,8 +2,6 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.models.Like;
-import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.Subscription;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.service.AuthorizationService;
@@ -19,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,7 +34,6 @@ public class ProfileServlet extends HttpServlet {
             resp.sendError(404);
             return;
         }
-
         Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
@@ -50,19 +46,10 @@ public class ProfileServlet extends HttpServlet {
             subscribed = ProfileHandlerService.isSubscribed(option.get(), profileUser);
         }
 
-        List<User> profileUserSubscriptions = ProfileHandlerService.getUserSubscriptions(profileUser);
-        List<User> profileUserSubscribers = ProfileHandlerService.getUserSubscribers(profileUser);
-        List<Like> profileUserLikes = ProfileHandlerService.getLikes(profileUser);
-        List<Post> profileUserPosts = ProfileHandlerService.getPosts(profileUser);
-
         Map<String, Object> params = NavbarMapGetter.getMap(req);
+        ProfileHandlerService.addProfileParamsToMap(params, profileUser);
         params.put("option", option);
         params.put("subscribed", subscribed);
-        params.put("profileUser", profileUser);
-        params.put("profileUserSubscriptions", profileUserSubscriptions);
-        params.put("profileUserSubscriber", profileUserSubscribers);
-        params.put("profileUserLikes", profileUserLikes);
-        params.put("profileUserPosts", profileUserPosts);
 
         try {
             temp.process(params, resp.getWriter());
@@ -71,9 +58,6 @@ public class ProfileServlet extends HttpServlet {
         }
 
         //option, storage.., proc, profileUser, subscribed  - boolean, profileUserSubscriptions (List<User>), profileUserLikes, profileUserPosts
-
-
-
     }
 
     // сделать через ajax

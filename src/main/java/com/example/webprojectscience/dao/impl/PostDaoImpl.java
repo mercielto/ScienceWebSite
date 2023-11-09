@@ -48,6 +48,11 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
     }
 
     @Override
+    public Post getByLink(String link) {
+        return getByField("link", link);
+    }
+
+    @Override
     void fillGapsInStatement(PreparedStatement preparedStatement, Post entity) throws SQLException {
         preparedStatement.setLong(1, entity.getUserId());
         preparedStatement.setString(2, entity.getPathInStorage());

@@ -3,6 +3,7 @@ package com.example.webprojectscience.service;
 import com.example.webprojectscience.models.Comment;
 import com.example.webprojectscience.models.Like;
 import com.example.webprojectscience.models.Post;
+import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedComment;
 import com.example.webprojectscience.models.joined.JoinedLike;
 import com.example.webprojectscience.models.joined.JoinedPost;
@@ -10,6 +11,7 @@ import com.example.webprojectscience.utill.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PostsHandlerService {
     public static List<JoinedPost> getJoinedPosts() {
@@ -17,15 +19,7 @@ public class PostsHandlerService {
         List<JoinedPost> joinedPosts = new ArrayList<>();
 
         for (Post post : posts) {
-            joinedPosts.add(
-                    new JoinedPost(
-                            post,
-                            DataBaseManager.getUserDao().getById(post.getUserId()),
-                            DataBaseManager.getThemeDao().getById(post.getThemeId()),
-                            getJoinedComments(post.getId()),
-                            getJoinedLikes(post.getId())
-                    )
-            );
+            joinedPosts.add(getJoinedPost(post));
         }
         return joinedPosts;
     }
@@ -57,5 +51,20 @@ public class PostsHandlerService {
             );
         }
         return joinedLikes;
+    }
+
+    public static JoinedPost getJoinedPost(Post post) {
+        return new JoinedPost(
+                post,
+                DataBaseManager.getUserDao().getById(post.getUserId()),
+                DataBaseManager.getThemeDao().getById(post.getThemeId()),
+                getJoinedComments(post.getId()),
+                getJoinedLikes(post.getId())
+        );
+    }
+
+    public static JoinedPost getJoinedPostByLink(String link) {
+        Post post = DataBaseManager.getPostDao().getByLink(link);
+        return getJoinedPost(post);
     }
 }

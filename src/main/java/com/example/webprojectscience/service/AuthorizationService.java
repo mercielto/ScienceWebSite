@@ -1,5 +1,6 @@
 package com.example.webprojectscience.service;
 
+import com.example.webprojectscience.config.Params;
 import com.example.webprojectscience.models.Token;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.utill.DataBaseManager;
@@ -9,7 +10,6 @@ import com.example.webprojectscience.utill.Generator;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class AuthorizationService {
     public static boolean authorizeByCookieToken(HttpServletRequest request) {
@@ -31,17 +31,18 @@ public class AuthorizationService {
     }
 
     public static void setSessionAttributeToken(HttpServletRequest request, User user) {
-        Token token = generateTokenEntity(request, user);
+        Token token = generateTokenEntity(request, user, true);
         DataBaseManager.getTokenDao().insert(token);
 
         request.getSession().setAttribute("authorized", token.getValue());
     }
 
-    public static Token generateTokenEntity(HttpServletRequest request, User user) {
+    public static Token generateTokenEntity(HttpServletRequest request, User user, boolean session) {
         Token token = new Token();
         token.setValue(String.valueOf(Generator.generateToken()));
         token.setIpAddress(request.getRemoteAddr());
         token.setUserId(user.getId());
+        token.setSession(session);
         return token;
     }
 
@@ -111,7 +112,7 @@ public class AuthorizationService {
         String login = request.getParameter("login");
 
         User user = DataBaseManager.getUserDao().getByLogin(login);
-        Token token = generateTokenEntity(request, user);
+        Token token = generateTokenEntity(request, user, false);
 
         DataBaseManager.getTokenDao().insert(token);
         Cookie tok = new Cookie("authorized", String.valueOf(token.getValue()));
@@ -120,36 +121,30 @@ public class AuthorizationService {
         response.addCookie(tok);
     }
 
-    /*public static boolean checkCookies(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null) {
-            return false;
-        }
-
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("authorized")) {
-                Token token = DataBaseManager.getTokenDao().getByValue(cookie.getValue());
-
-                if (token != null) {
-                    return true;
-                }
-                return false;
-            }
-        }
-        return false;
-    }*/
-
-    public static void deleteCookies(HttpServletRequest request, HttpServletResponse response, List<String> names) {
+    public static void removeCookieToken(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             return;
         }
         for (Cookie cookie : cookies) {
-            if (names.contains(cookie.getName())) {
+            if (cookie.getName().equals(Params.authorizationField)) {
+                DataBaseManager.getTokenDao().deleteByValue(cookie.getValue());
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
+                break;
             }
         }
+    }
+
+    public static void removeSessionToken(HttpServletRequest request) {
+        String sessionTokenValue = String.valueOf(request.getSession().getAttribute(Params.authorizationField));
+        DataBaseManager.getTokenDao().deleteByValue(sessionTokenValue);
+        request.getSession().removeAttribute(Params.authorizationField);
+    }
+
+    public static void logout(HttpServletRequest request, HttpServletResponse response, User user) {
+        removeCookieToken(request, response);
+        removeSessionToken(request);
+
     }
 }

@@ -14,8 +14,8 @@ public class CommentDaoImpl extends AbstractDAOImpl<Comment> implements CommentD
     public CommentDaoImpl(Connection connection, String tableName, RowMapper<Comment> rowMapper) {
         super(connection, tableName, rowMapper);
 
-        SQL_INSERT = "INSERT INTO comment (user_id, post_id, text, date, answered) values (?, ?, ?, ?, ?)";
-        SQL_UPDATE = "UPDATE comment set user_id = ?, post_id = ?, text = ?, date = ?, answered = ? where id = ?";
+        SQL_INSERT = "INSERT INTO comment (user_id, post_id, text, date) values (?, ?, ?, ?)";
+        SQL_UPDATE = "UPDATE comment set user_id = ?, post_id = ?, text = ?, date = ? where id = ?";
     }
 
     @Override
@@ -34,6 +34,5 @@ public class CommentDaoImpl extends AbstractDAOImpl<Comment> implements CommentD
         preparedStatement.setLong(2, entity.getPostId());
         preparedStatement.setString(3, entity.getText());
         preparedStatement.setDate(4, (Date) entity.getDate());
-        preparedStatement.setLong(5, entity.getAnswered());
     }
 }

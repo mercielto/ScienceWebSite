@@ -14,4 +14,5 @@ public class Token implements HasId{
     private String value;
     private Long userId;
     private String ipAddress;
+    private Boolean session;
 }

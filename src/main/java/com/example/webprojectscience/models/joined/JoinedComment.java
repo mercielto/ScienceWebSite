@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,13 +19,11 @@ public class JoinedComment {
     private User user;
     private String text;
     private Date date;
-    private Long answered;
 
     public JoinedComment(Comment comment, User user1) {
         id = comment.getId();
         user = user1;
         text = comment.getText();
         date = comment.getDate();
-        answered = comment.getAnswered();
     }
 }

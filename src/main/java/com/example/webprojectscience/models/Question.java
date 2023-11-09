@@ -21,4 +21,5 @@ public class Question implements HasId {
     private Long themeId;
     private String link;
     private String mainQuestion;
+    private Long answerId;
 }

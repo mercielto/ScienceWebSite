@@ -17,7 +17,7 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDao {
                 " (login, password, name, link, profile_photo, description, admin)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?)";
         SQL_UPDATE = "UPDATE \"User\" SET " +
-                "login = ?, password = ?, name = ?, link = ?, profile_photo_path = ?, description = ?, admin = ?" +
+                "login = ?, password = ?, name = ?, link = ?, profile_photo = ?, description = ?, admin = ?" +
                 " WHERE id = ? RETURNING *";
     }
 

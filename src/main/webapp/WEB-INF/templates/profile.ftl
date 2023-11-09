@@ -48,7 +48,7 @@
             </form>
         </#if>
 
-        <p id="profile-description">
+        <p id="profile-description" class="rounded">
             <#if (profileUser.getDescription())??>
                 ${profileUser.getDescription()}
             <#else>
@@ -58,10 +58,10 @@
 
         <div class="profile-attributes">
 
-            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserSubscriptions topic="Subscribtions"/>
-            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserSubscriber topic="Subscribers"/>
-            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserLikes topic="Likes"/>
-            <@macros.profileAttribute fileBuilder=fileBuilder listOfUser=profileUserPosts topic="Posts"/>
+            <@macros.profileAttributeUsers fileBuilder=fileBuilder listOfUser=profileUserSubscriptions topic="Subscribtions"/>
+            <@macros.profileAttributeUsers fileBuilder=fileBuilder listOfUser=profileUserSubscriber topic="Subscribers"/>
+            <@macros.profileAttributePosts listOfPost=profileUserLikedPosts topic="Likes" contextPath=contextPath/>
+            <@macros.profileAttributePosts listOfPost=profileUserPosts topic="Posts" contextPath=contextPath/>
 
         </div>
     </main>

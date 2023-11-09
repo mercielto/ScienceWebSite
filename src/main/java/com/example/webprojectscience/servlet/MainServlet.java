@@ -2,48 +2,52 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.models.Theme;
+import com.example.webprojectscience.models.regular.Block;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.service.AuthorizationService;
-import com.example.webprojectscience.service.ThemesHandlerService;
-import com.example.webprojectscience.utill.FileBuilder;
+import com.example.webprojectscience.service.MainPageService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet(name = "MainServlet", value = "/themes")
+@WebServlet(name = "MainServlet", value = "/")
 public class MainServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        Optional<User> user = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req)); /*Optional.ofNullable(DataBaseManager.getUserDao().getByLogin("1"));*/
-        List<Theme> themes = ThemesHandlerService.getAllThemes();
-        Theme other = ThemesHandlerService.getOther();
+        List<Block> blockList = new ArrayList<>();
+        blockList.add(new Block("Users count", MainPageService.getUsersCount()));
+        blockList.add(new Block("Users online", MainPageService.getOnlineUserCount()));
+        blockList.add(new Block("Posts", MainPageService.getPostsCount()));
+        blockList.add(new Block("Questions answered", MainPageService.getAnsweredQuestionsCount()));
 
-        Configuration cfg = FreemarkerConfigSingleton.getConfig();
-        Template temp = cfg.getTemplate("themes.ftl");
+        Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
         Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", user);
-        params.put("themes", themes);
-        params.put("other", other);
-        params.put("helpers", new FileBuilder());
+        params.put("option", option);
+        params.put("blocks", blockList);
+
+        Configuration cfg = FreemarkerConfigSingleton.getConfig();
+        Template temp = cfg.getTemplate("main-page.ftl");
 
         try {
             temp.process(params, resp.getWriter());
         } catch (TemplateException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

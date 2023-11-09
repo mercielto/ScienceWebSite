@@ -3,7 +3,9 @@ package com.example.webprojectscience.servlet;
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.service.AuthorizationService;
+import com.example.webprojectscience.service.PostsHandlerService;
 import com.example.webprojectscience.utill.Helpers;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -14,45 +16,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet(name = "LoginServlet", value = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PostSingleServlet", value = "/posts/*")
+public class PostSingleServlet extends HttpServlet {
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        User user = AuthorizationService.getAuthorizedUser(req);
+        String link = req.getPathInfo().substring(1);
+        if (link.equals("")) {
+            resp.sendError(404);
+            return;
+        }
+
+        JoinedPost joinedPost = PostsHandlerService.getJoinedPostByLink(link);
+        Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
+
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
-        Template temp = cfg.getTemplate("login.ftl");
+        Template temp = cfg.getTemplate("post-single.ftl");
 
         Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", Optional.ofNullable(user));
+        params.put("option", option);
+        params.put("post", joinedPost);
 
         try {
             temp.process(params, resp.getWriter());
         } catch (TemplateException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String rememberMe = req.getParameter("remember_me");
-
-        if (AuthorizationService.login(req)) {
-            if (rememberMe != null) {
-                AuthorizationService.saveInCookies(req, resp);
-            } else {
-                AuthorizationService.removeCookieToken(req, resp);
-            }
-
-            Helpers.redirect(resp, req.getContextPath() + "/themes");
-        } else {
-            Helpers.redirect(resp, req.getContextPath() + "/login");
         }
     }
 }

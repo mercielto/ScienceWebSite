@@ -1,7 +1,9 @@
 package com.example.webprojectscience.utill;
 
+import java.util.UUID;
+
 public class Generator {
-    public static int generateToken() {
-        return (int) (Math.random() * 1_000_000);
+    public static String generateToken() {
+        return UUID.randomUUID().toString();
     }
 }

@@ -9,4 +9,5 @@ public interface PostDao extends DAO<Post> {
     List<Post> getByUserId(Long userId);
     List<Post> getByThemeId(Long themeId);
     List<Post> getByTags(String[] tags);
+    Post getByLink(String link);
 }

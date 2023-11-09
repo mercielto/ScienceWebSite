@@ -18,4 +18,7 @@ public class Params {
     public static String forumQuestionAnswerTableName = "forum_answer";
 
     public static String storagePath = "C:\\Works\\WebServer\\storage\\";
+    public static String defaultProfilePhotoName = "default.jpg";
+
+    public static String authorizationField = "authorized";
 }

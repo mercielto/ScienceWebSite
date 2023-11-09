@@ -29,7 +29,7 @@ public class PostListServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        Optional<User> user =  Optional.of(AuthorizationService.getAuthorizedUser(req));
+        Optional<User> user =  Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
         List<JoinedPost> posts = PostsHandlerService.getJoinedPosts();
         List<Theme> themes = DataBaseManager.getThemeDao().getAll();
 

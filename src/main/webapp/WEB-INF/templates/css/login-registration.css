@@ -16,3 +16,9 @@
     border: solid 1px;
 }
 
+#remember-me {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
