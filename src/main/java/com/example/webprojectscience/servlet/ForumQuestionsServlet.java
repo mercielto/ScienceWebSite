@@ -2,8 +2,8 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.ForumQuestionsSelectorService;
 import freemarker.template.Configuration;
@@ -24,17 +24,15 @@ public class ForumQuestionsServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        User user = AuthorizationService.getAuthorizedUser(req);
-
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("forumMain.ftl");
 
         List<JoinedQuestion> questions = ForumQuestionsSelectorService.getJoinedQuestions(
                 null, null, null, new ArrayList<>(), 10);
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("questions", questions);
-        params.put("option", Optional.ofNullable(user));
         params.put("pageNumbers", ForumQuestionsSelectorService.getPageNumbers(questions.size()));
         params.put("themes", ForumQuestionsSelectorService.getThemes());
 

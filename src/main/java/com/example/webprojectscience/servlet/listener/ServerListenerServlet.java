@@ -3,6 +3,7 @@ package com.example.webprojectscience.servlet.listener;
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.Params;
 import com.example.webprojectscience.dao.impl.*;
+import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.utill.ConnectionSingleton;
 import com.example.webprojectscience.utill.DataBaseManager;
 import com.example.webprojectscience.utill.RowMapper.impl.*;
@@ -36,9 +37,9 @@ public class ServerListenerServlet implements ServletContextListener {
         DataBaseManager.setSubscriptionDao(new SubscriptionDaoImpl(ConnectionSingleton.getConnection(),
                 Params.subscriptionTableName, new SubscriptionRowMapper()));
         DataBaseManager.setQuestionDao(new QuestionDaoImpl(ConnectionSingleton.getConnection(),
-                Params.forumQuestionTableName, new QuestionRowMapper()));
+                Params.forumQuestionTableName, new QuestionRowMapper(), new JoinedQuestionRowMapper()));
         DataBaseManager.setQuestionAnswerDao(new QuestionAnswerDaoImpl(ConnectionSingleton.getConnection(),
-                Params.forumQuestionAnswerTableName, new QuestionAnswerRowMapper()));
+                Params.forumQuestionAnswerTableName, new QuestionAnswerRowMapper(), new JoinedAnswerRowMapper()));
 //        DataBaseManager.setMessage()
     }
 }

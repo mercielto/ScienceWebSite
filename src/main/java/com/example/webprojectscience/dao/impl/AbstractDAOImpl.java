@@ -2,6 +2,7 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.DAO;
 import com.example.webprojectscience.models.HasId;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
@@ -12,11 +13,10 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
     protected Connection connection;
     protected RowMapper<T> rowMapper;
 
-    protected String SQL_GET_ALL;
-    protected String SQL_GET;
-    protected String SQL_DELETE;
-    protected String SQL_UPDATE;
-    protected String SQL_INSERT;
+    public String SQL_GET;
+    public String SQL_DELETE;
+    public String SQL_UPDATE;
+    public String SQL_INSERT;
 
     public AbstractDAOImpl(Connection connection, String tableName, RowMapper<T> rowMapper) {
         this.connection = connection;
@@ -25,27 +25,13 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
     }
 
     public void setTableName(String name) {
-        SQL_GET_ALL = "SELECT * FROM \"%s\"".formatted(name);
-        SQL_GET = "SELECT * FROM \"%s\" WHERE %s = ?".formatted(name, "%s");
-        SQL_DELETE = "DELETE FROM \"%s\" WHERE %s = ?".formatted(name, "%s");
+        SQL_GET = "SELECT * FROM \"%s\"".formatted(name);
+        SQL_DELETE = "DELETE FROM \"%s\"".formatted(name);
     }
 
     @Override
     public List<T> getAll() {
-        List<T> entities = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery(SQL_GET_ALL);
-            ResultSet resultSet = statement.getResultSet();
-
-            while (resultSet.next()) {
-                entities.add(rowMapper.from(resultSet));
-            }
-
-            return entities;
-        } catch (SQLException e) {
-            return null;
-        }
+        return (List<T>)(Object) executeSqlStatement(SQL_GET, rowMapper);
     }
 
     @Override
@@ -59,33 +45,55 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
     }
 
     protected T getByField(String fieldName, Object value) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        builder.equals(fieldName);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
+        List<Object> entities = executeSqlStatement(preparedStatement.toString(), rowMapper);
+        if (entities.size() == 0) {
+            return null;
+        }
+        return (T) entities.get(0);
+    }
+
+    protected List<T> getEntitiesByField(String fieldName, Object value) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        builder.equals(fieldName);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
+        return (List<T>) (Object) executeSqlPreparedStatement(preparedStatement, rowMapper);
+    }
+
+    protected PreparedStatement getPreparedStatement(String sql, List<Object> args) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET.formatted(fieldName));
-            preparedStatement.setObject(1, value);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            if (resultSet.wasNull()) {
-                return null;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            for (int index = 1; index < args.size() + 1; index++) {
+                preparedStatement.setObject(index, args.get(index - 1));
             }
-
-            return rowMapper.from(resultSet);
+            return preparedStatement;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected List<T> getEntitiesByField(String fieldName, Object value) {
-        List<T> entities = new ArrayList<>();
+    protected List<Object> executeSqlPreparedStatement(PreparedStatement preparedStatement, RowMapper rm) {
+        List<Object> entities = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET.formatted(fieldName));
-            preparedStatement.setObject(1, value);
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
-                entities.add(rowMapper.from(resultSet));
+                entities.add(rm.from(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return entities;
+    }
+
+    protected List<Object> executeSqlStatement(String sql, RowMapper rm) {
+        List<Object> entities = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                entities.add(rm.from(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -94,9 +102,11 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
     }
 
     protected boolean deleteByField(String fieldName, Object value) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_DELETE);
+        builder.equals(fieldName);
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE.formatted(fieldName));
-            preparedStatement.setObject(1, value);
+            PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
             int n = preparedStatement.executeUpdate();
 
             if (n == 0) {
@@ -108,21 +118,16 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
         }
     }
 
-    public T update(T entity) {
+    public void update(T entity) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
             fillGapsInStatement(preparedStatement, entity);
 
-            // ?
             preparedStatement = connection.prepareStatement(preparedStatement.toString());
             preparedStatement.setLong(1, entity.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
-            if (resultSet.wasNull()) {
-                return null;
-            }
-            return rowMapper.from(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -2,6 +2,9 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.extensions.QuestionDao;
 import com.example.webprojectscience.models.Question;
+import com.example.webprojectscience.models.joined.JoinedAnswer;
+import com.example.webprojectscience.models.joined.JoinedQuestion;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
@@ -11,11 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements QuestionDao {
-    protected final String SQL_GET_BY_DATE = "SELECT * FROM forum_question WHERE date <= ? AND date >= ?";
-    protected final String SQL_GET_ALL_ANSWERED = "SELECT * FROM forum_question WHERE answered_answer_id is not null";
+    public final String SQL_GET_JOINED = "SELECT fq.*, us.*, theme.*, fq.id \"question_id_\"," +
+            " fq.user_id \"user_id_\", fq.date \"question_date_\", fq.text \"question_text_\"," +
+            " fq.link \"question_link_\", us.link \"user_link_\", us.name \"user_name_\"," +
+            " theme.name \"theme_name_\" FROM forum_question as fq, \"User\" as us, theme " +
+            "WHERE fq.user_id = us.id AND theme.id = fq.theme_id";
+    private RowMapper<JoinedQuestion> joinedQuestionRowMapper;
 
-    public QuestionDaoImpl(Connection connection, String tableName, RowMapper<Question> rowMapper) {
+    public QuestionDaoImpl(Connection connection, String tableName, RowMapper<Question> rowMapper,
+                           RowMapper<JoinedQuestion> joinedQuestionRowMapper1) {
         super(connection, tableName, rowMapper);
+        joinedQuestionRowMapper = joinedQuestionRowMapper1;
 
         SQL_INSERT = "INSERT INTO forum_question (user_id, date, text, tags, theme_id," +
                 " link, main_question, answered_answer_id)" +
@@ -38,28 +47,24 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
 
     @Override
     public List<Question> getByDate(java.util.Date from, java.util.Date to) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        List<Object> values = new ArrayList<>();
         if (from == null) {
             from = Date.valueOf(LocalDate.of(1000, Month.APRIL, 3));
         }
+
+        builder.lessEquals("date");
+        values.add(from);
 
         if (to == null) {
             to = Date.valueOf(LocalDate.now());
         }
 
-        List<Question> questions = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_BY_DATE);
-            preparedStatement.setDate(1, (Date) to);
-            preparedStatement.setDate(2, (Date) from);
-            ResultSet rs = preparedStatement.executeQuery();
+        builder.moreEquals("date");
+        values.add(to);
 
-            while (rs.next()) {
-                questions.add(rowMapper.from(rs));
-            }
-            return questions;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), values);
+        return (List<Question>) (Object) executeSqlPreparedStatement(preparedStatement, rowMapper);
     }
 
     @Override
@@ -69,23 +74,42 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
 
     @Override
     public List<Question> getAllAnswered() {
-        List<Question> questions = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_ANSWERED);
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-                questions.add(rowMapper.from(rs));
-            }
-            return questions;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        builder.isNotNull("answered_answer_id");
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of());
+        return (List<Question>)(Object)executeSqlPreparedStatement(preparedStatement, rowMapper);
     }
 
     @Override
     public Question getByLink(String link) {
         return getByField("link", link);
+    }
+
+    private JoinedQuestion getJoinedQuestionByField(String fieldName, Object value) {
+        List<JoinedQuestion> joinedQuestions = getJoinedQuestionListByField(fieldName, value);
+        if (joinedQuestions.size() == 0) {
+            return null;
+        }
+        return joinedQuestions.get(0);
+    }
+
+    @Override
+    public JoinedQuestion getJoinedQuestionByLink(String link) {
+        return getJoinedQuestionByField("fq.link", link);
+    }
+
+    public List<JoinedQuestion> getJoinedQuestions(PreparedStatementConditionBuilder builder, List<Object> values) {
+        builder.setSql(SQL_GET_JOINED);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), values);
+        return (List<JoinedQuestion>) (Object) executeSqlPreparedStatement(preparedStatement, joinedQuestionRowMapper);
+    }
+
+    private List<JoinedQuestion> getJoinedQuestionListByField(String fieldName, Object value) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET_JOINED);
+        builder.equals(fieldName);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
+        List<Object> entities = executeSqlPreparedStatement(preparedStatement, joinedQuestionRowMapper);
+        return (List<JoinedQuestion>)(Object)entities;
     }
 
 }

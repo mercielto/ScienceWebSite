@@ -2,6 +2,7 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.extensions.PostDao;
 import com.example.webprojectscience.models.Post;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
-    protected String SQL_GET_BY_TAGS = "SELECT * FROM \"post\" WHERE tags @> ?";
+    public String SQL_GET_BY_TAGS = "SELECT * FROM \"post\" WHERE tags @> ?";
 
     public PostDaoImpl(Connection connection, String tableName, RowMapper<Post> rowMapper) {
         super(connection, tableName, rowMapper);
@@ -33,18 +34,10 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
 
     @Override
     public List<Post> getByTags(String[] tags) {
-        List<Post> entities = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_BY_TAGS);
-            preparedStatement.setString(1, Arrays.toString(tags));
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                entities.add(rowMapper.from(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return entities;
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        builder.contains("tags");
+        PreparedStatement preparedStatement = getPreparedStatement(SQL_GET, List.of(Arrays.toString(tags)));
+        return (List<Post>)(Object)executeSqlPreparedStatement(preparedStatement, rowMapper);
     }
 
     @Override

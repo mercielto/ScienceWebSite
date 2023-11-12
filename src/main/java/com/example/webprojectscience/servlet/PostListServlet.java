@@ -8,7 +8,6 @@ import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.PostsHandlerService;
 import com.example.webprojectscience.utill.DataBaseManager;
-import com.example.webprojectscience.utill.FileBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "PostListServlet", value = "/posts")
 public class PostListServlet extends HttpServlet {
@@ -29,15 +27,13 @@ public class PostListServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
-        Optional<User> user =  Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
         List<JoinedPost> posts = PostsHandlerService.getJoinedPosts();
         List<Theme> themes = DataBaseManager.getThemeDao().getAll();
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", user);
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("posts", posts);
         params.put("themes", themes);
-
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("posts.ftl");

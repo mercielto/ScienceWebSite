@@ -26,6 +26,7 @@ public class JoinedQuestion {
     private String link;
     private List<QuestionAnswer> questionAnswers;
     private String mainQuestion;
+    private Long answerId;
 
     public JoinedQuestion(Question question, User user, List<QuestionAnswer> q, Theme theme1) {
         id = question.getId();

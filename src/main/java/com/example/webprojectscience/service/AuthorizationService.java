@@ -53,7 +53,7 @@ public class AuthorizationService {
         }
 
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("authorized")) {
+            if (cookie.getName().equals(Params.authorizationField)) {
                 Token token = DataBaseManager.getTokenDao().getByValue(cookie.getValue());
                 if (token != null) {
                     return token;
@@ -101,7 +101,7 @@ public class AuthorizationService {
     }
 
     public static Token getTokenFromSession(HttpServletRequest request) {
-        String value = (String) request.getSession().getAttribute("authorized");
+        String value = (String) request.getSession().getAttribute(Params.authorizationField);
         if (value == null) {
             return null;
         }
@@ -115,7 +115,7 @@ public class AuthorizationService {
         Token token = generateTokenEntity(request, user, false);
 
         DataBaseManager.getTokenDao().insert(token);
-        Cookie tok = new Cookie("authorized", String.valueOf(token.getValue()));
+        Cookie tok = new Cookie(Params.authorizationField, String.valueOf(token.getValue()));
         tok.setMaxAge(60 * 60 * 60 * 60);
 
         response.addCookie(tok);

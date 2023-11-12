@@ -3,7 +3,6 @@ package com.example.webprojectscience.service;
 import com.example.webprojectscience.models.Comment;
 import com.example.webprojectscience.models.Like;
 import com.example.webprojectscience.models.Post;
-import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedComment;
 import com.example.webprojectscience.models.joined.JoinedLike;
 import com.example.webprojectscience.models.joined.JoinedPost;
@@ -11,7 +10,6 @@ import com.example.webprojectscience.utill.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PostsHandlerService {
     public static List<JoinedPost> getJoinedPosts() {
@@ -66,5 +64,15 @@ public class PostsHandlerService {
     public static JoinedPost getJoinedPostByLink(String link) {
         Post post = DataBaseManager.getPostDao().getByLink(link);
         return getJoinedPost(post);
+    }
+
+    public static List<JoinedPost> getJoinedPostsByUserId(Long userId) {
+        List<Post> posts = DataBaseManager.getPostDao().getByUserId(userId);
+        List<JoinedPost> joinedPosts = new ArrayList<>();
+
+        for (Post post : posts) {
+            joinedPosts.add(getJoinedPost(post));
+        }
+        return joinedPosts;
     }
 }

@@ -6,7 +6,6 @@ import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.PostsHandlerService;
-import com.example.webprojectscience.utill.Helpers;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "PostSingleServlet", value = "/posts/*")
 public class PostSingleServlet extends HttpServlet {
@@ -33,13 +31,12 @@ public class PostSingleServlet extends HttpServlet {
         }
 
         JoinedPost joinedPost = PostsHandlerService.getJoinedPostByLink(link);
-        Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("post-single.ftl");
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", option);
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("post", joinedPost);
 
         try {

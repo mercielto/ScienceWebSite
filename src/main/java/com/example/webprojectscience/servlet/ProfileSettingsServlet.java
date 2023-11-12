@@ -2,14 +2,10 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.config.Params;
-import com.example.webprojectscience.models.Like;
-import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.ProfileHandlerService;
 import com.example.webprojectscience.utill.DataBaseManager;
-import com.example.webprojectscience.utill.FileStoragePathBuilder;
 import com.example.webprojectscience.utill.Helpers;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -23,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "ProfileSettingsServlet", value = "/profile/settings/*")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -50,8 +43,7 @@ public class ProfileSettingsServlet extends HttpServlet {
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("profileSettings.ftl");
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", Optional.of(user));
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         ProfileHandlerService.addProfileParamsToMap(params, profileUser);
 
         try {

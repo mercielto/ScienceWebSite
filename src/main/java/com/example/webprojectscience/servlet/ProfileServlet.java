@@ -34,21 +34,21 @@ public class ProfileServlet extends HttpServlet {
             resp.sendError(404);
             return;
         }
-        Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();
         Template temp = cfg.getTemplate("profile.ftl");
 
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
+
         boolean subscribed;
-        if (option.isEmpty()) {
+        if (user == null) {
             subscribed = false;
         } else {
-            subscribed = ProfileHandlerService.isSubscribed(option.get(), profileUser);
+            subscribed = ProfileHandlerService.isSubscribed(user, profileUser);
         }
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
         ProfileHandlerService.addProfileParamsToMap(params, profileUser);
-        params.put("option", option);
         params.put("subscribed", subscribed);
 
         try {

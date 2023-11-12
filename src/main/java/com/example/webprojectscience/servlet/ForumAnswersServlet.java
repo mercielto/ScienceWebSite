@@ -2,8 +2,6 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.models.Question;
-import com.example.webprojectscience.models.QuestionAnswer;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedAnswer;
 import com.example.webprojectscience.models.joined.JoinedQuestion;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "ForumAnswersServlet", value = "/forum/*")
 public class ForumAnswersServlet extends HttpServlet {
@@ -33,11 +30,10 @@ public class ForumAnswersServlet extends HttpServlet {
         String link = req.getPathInfo().substring(1);
         JoinedQuestion joinedQuestion = ForumAnswerHandlerService.getJoinedQuestionByLink(link);
         List<JoinedAnswer> answers = ForumAnswerHandlerService.getJoinedAnswersByQuestionId(joinedQuestion.getId());
-        Optional<User> optional = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
 
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("answers", answers);
-        params.put("option", optional);
         params.put("question", joinedQuestion);
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();

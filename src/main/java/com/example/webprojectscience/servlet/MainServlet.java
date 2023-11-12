@@ -2,8 +2,8 @@ package com.example.webprojectscience.servlet;
 
 import com.example.webprojectscience.config.FreemarkerConfigSingleton;
 import com.example.webprojectscience.config.NavbarMapGetter;
-import com.example.webprojectscience.models.regular.Block;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.models.regular.Block;
 import com.example.webprojectscience.service.AuthorizationService;
 import com.example.webprojectscience.service.MainPageService;
 import freemarker.template.Configuration;
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "MainServlet", value = "/")
 public class MainServlet extends HttpServlet {
@@ -34,10 +33,8 @@ public class MainServlet extends HttpServlet {
         blockList.add(new Block("Posts", MainPageService.getPostsCount()));
         blockList.add(new Block("Questions answered", MainPageService.getAnsweredQuestionsCount()));
 
-        Optional<User> option = Optional.ofNullable(AuthorizationService.getAuthorizedUser(req));
-
-        Map<String, Object> params = NavbarMapGetter.getMap(req);
-        params.put("option", option);
+        User user = AuthorizationService.getAuthorizedUser(req);
+        Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("blocks", blockList);
 
         Configuration cfg = FreemarkerConfigSingleton.getConfig();

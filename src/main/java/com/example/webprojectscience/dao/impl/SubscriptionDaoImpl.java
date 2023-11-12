@@ -2,6 +2,7 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.extensions.SubscriptionDao;
 import com.example.webprojectscience.models.Subscription;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 import com.example.webprojectscience.utill.RowMapper.impl.SubscriptionRowMapper;
 
@@ -12,7 +13,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class SubscriptionDaoImpl extends AbstractDAOImpl<Subscription> implements SubscriptionDao {
-    protected String SQL_GET_BY_ALL_FIELDS = "SELECT * FROM subscription WHERE user_id = ? AND subscriber_id = ?";
     public SubscriptionDaoImpl(Connection connection, String tableName, RowMapper<Subscription> rowMapper) {
         super(connection, tableName, rowMapper);
 
@@ -33,21 +33,16 @@ public class SubscriptionDaoImpl extends AbstractDAOImpl<Subscription> implement
 
     @Override
     public Subscription getSubsctiption(Long userId, Long subscribedToId) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_BY_ALL_FIELDS);
-            preparedStatement.setLong(1, subscribedToId);
-            preparedStatement.setLong(2, userId);
-            ResultSet rs = preparedStatement.executeQuery();
-            boolean status = rs.next();
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+        builder.equals("user_id");
+        builder.equals("subscriber_id");
 
-            if (!status) {
-                return null;
-            }
-
-            return rowMapper.from(rs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(userId, subscribedToId));
+        List<Object> objects = executeSqlPreparedStatement(preparedStatement, rowMapper);
+        if (objects.size() == 0) {
+            return null;
         }
+        return (Subscription) objects.get(0);
     }
 
 

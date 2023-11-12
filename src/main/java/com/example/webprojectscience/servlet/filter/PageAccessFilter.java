@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(servletNames = {"ProfileSettingsServlet"})
+@WebFilter(servletNames = {"ProfileSettingsServlet", "MyPostsServlet"})
 public class PageAccessFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -21,6 +21,7 @@ public class PageAccessFilter implements Filter {
         User user = AuthorizationService.getAuthorizedUser(request);
         if (user == null) {
             Helpers.redirect(response, request.getContextPath());
+            return;
         }
 
         filterChain.doFilter(request, response);
