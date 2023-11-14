@@ -1,6 +1,7 @@
 package com.example.webprojectscience.models.joined;
 
 import com.example.webprojectscience.models.Comment;
+import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +18,7 @@ import java.util.List;
 public class JoinedComment {
     private Long id;
     private User user;
+    private Post post;
     private String text;
     private Date date;
-
-    public JoinedComment(Comment comment, User user1) {
-        id = comment.getId();
-        user = user1;
-        text = comment.getText();
-        date = comment.getDate();
-    }
 }

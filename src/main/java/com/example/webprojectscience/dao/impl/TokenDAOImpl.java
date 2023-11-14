@@ -3,7 +3,6 @@ package com.example.webprojectscience.dao.impl;
 import com.example.webprojectscience.dao.extensions.TokenDao;
 import com.example.webprojectscience.models.Token;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
-import com.example.webprojectscience.utill.RowMapper.impl.TokenRowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,22 +29,22 @@ public class TokenDAOImpl extends AbstractDAOImpl<Token> implements TokenDao {
 
     @Override
     public Token getByValue(String value) {
-        return getByField("value", value);
+        return getByEqualsField("value", value);
     }
 
     @Override
     public Token getByUserId(Long id) {
-        return getByField("user_id", id);
+        return getByEqualsField("user_id", id);
     }
 
     @Override
     public Token getByIpAddress(String address) {
-        return getByField("ip_address", address);
+        return getByEqualsField("ip_address", address);
     }
 
     @Override
     public List<Token> getBySession(boolean session) {
-        return getEntitiesByField("session", session);
+        return getEntitiesByEqualsField("session", session);
     }
 
     @Override

@@ -24,18 +24,4 @@ public class JoinedPost {
     private List<JoinedComment> comments;
     private List<JoinedLike> likes;
     private String link;
-
-    public JoinedPost(Post post, User user1, Theme theme1,
-                      List<JoinedComment> comments1, List<JoinedLike> likes1) {
-        id = post.getId();
-        user = user1;
-        pathInStorage = post.getPathInStorage();
-        theme = theme1;
-        tags = post.getTags();
-        date = post.getDate();
-        title = post.getTitle();
-        comments = comments1;
-        likes = likes1;
-        link = post.getLink();
-    }
 }

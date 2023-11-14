@@ -20,7 +20,7 @@
     gap: 10px;
 
     width: 800px;
-    height: 600px;
+    max-height: 600px;
 
     padding: 2rem;
 }
@@ -90,6 +90,7 @@
     justify-content: space-around;
     align-content: end;
     align-items: end;
+    font-size: 1.4rem;
 }
 
 .posts-single-params-img {

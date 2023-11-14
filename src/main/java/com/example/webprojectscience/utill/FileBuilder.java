@@ -17,7 +17,7 @@ public class FileBuilder {
     }
 
     public String getServicePhotoInBytes(String name) {
-        return ImageProcessor.encodeImage(FileStoragePathBuilder.getPathToServiveImg(name));
+        return ImageProcessor.encodeImage(FileStoragePathBuilder.getPathToServiceImg(name));
     }
 
     public String getPostText(String link) {

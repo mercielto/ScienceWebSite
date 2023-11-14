@@ -3,7 +3,6 @@ package com.example.webprojectscience.dao.impl;
 import com.example.webprojectscience.dao.extensions.QuestionAnswerDao;
 import com.example.webprojectscience.models.QuestionAnswer;
 import com.example.webprojectscience.models.joined.JoinedAnswer;
-import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
@@ -31,19 +30,12 @@ public class QuestionAnswerDaoImpl extends AbstractDAOImpl<QuestionAnswer> imple
 
     @Override
     public List<QuestionAnswer> getByQuestionId(Long id) {
-        return getEntitiesByField("question_id", id);
-    }
-
-    public List<JoinedAnswer> getJoinedAnswerListByField(String fieldName, Object value) {
-        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET_JOINED);
-        builder.equals(fieldName);
-        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
-        return (List<JoinedAnswer>)(Object)executeSqlPreparedStatement(preparedStatement, joinedAnswerRowMapper);
+        return getEntitiesByEqualsField("question_id", id);
     }
 
     @Override
     public List<JoinedAnswer> getJoinedAnswersByQuestionId(Long questionId) {
-        return getJoinedAnswerListByField("question_id", questionId);
+        return (List<JoinedAnswer>) getListByEqualsField(SQL_GET_JOINED, "question_id", questionId, joinedAnswerRowMapper);
     }
 
 }

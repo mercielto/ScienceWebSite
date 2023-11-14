@@ -3,7 +3,6 @@ package com.example.webprojectscience.dao.impl;
 import com.example.webprojectscience.dao.extensions.UserDao;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
-import com.example.webprojectscience.utill.RowMapper.impl.UserRowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,12 +34,12 @@ public class UserDAOImpl extends AbstractDAOImpl<User> implements UserDao {
 
     @Override
     public User getByLogin(String login) {
-        return getByField("login", login);
+        return getByEqualsField("login", login);
     }
 
     @Override
     public User getByLink(String link) {
-        return getByField("link", link);
+        return getByEqualsField("link", link);
     }
 
     @Override

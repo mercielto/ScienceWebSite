@@ -2,7 +2,6 @@ package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.extensions.QuestionDao;
 import com.example.webprojectscience.models.Question;
-import com.example.webprojectscience.models.joined.JoinedAnswer;
 import com.example.webprojectscience.models.joined.JoinedQuestion;
 import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
@@ -64,12 +63,12 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
         values.add(to);
 
         PreparedStatement preparedStatement = getPreparedStatement(builder.get(), values);
-        return (List<Question>) (Object) executeSqlPreparedStatement(preparedStatement, rowMapper);
+        return (List<Question>) executeSqlPreparedStatement(preparedStatement, rowMapper);
     }
 
     @Override
     public List<Question> getByThemeId(Long id) {
-        return getEntitiesByField("theme_id", id);
+        return getEntitiesByEqualsField("theme_id", id);
     }
 
     @Override
@@ -77,20 +76,16 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
         PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
         builder.isNotNull("answered_answer_id");
         PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of());
-        return (List<Question>)(Object)executeSqlPreparedStatement(preparedStatement, rowMapper);
+        return (List<Question>) executeSqlPreparedStatement(preparedStatement, rowMapper);
     }
 
     @Override
     public Question getByLink(String link) {
-        return getByField("link", link);
+        return getByEqualsField("link", link);
     }
 
     private JoinedQuestion getJoinedQuestionByField(String fieldName, Object value) {
-        List<JoinedQuestion> joinedQuestions = getJoinedQuestionListByField(fieldName, value);
-        if (joinedQuestions.size() == 0) {
-            return null;
-        }
-        return joinedQuestions.get(0);
+        return (JoinedQuestion) getByEqualsField(SQL_GET_JOINED, fieldName, value, joinedQuestionRowMapper);
     }
 
     @Override
@@ -101,15 +96,11 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
     public List<JoinedQuestion> getJoinedQuestions(PreparedStatementConditionBuilder builder, List<Object> values) {
         builder.setSql(SQL_GET_JOINED);
         PreparedStatement preparedStatement = getPreparedStatement(builder.get(), values);
-        return (List<JoinedQuestion>) (Object) executeSqlPreparedStatement(preparedStatement, joinedQuestionRowMapper);
+        return (List<JoinedQuestion>) executeSqlPreparedStatement(preparedStatement, joinedQuestionRowMapper);
     }
 
     private List<JoinedQuestion> getJoinedQuestionListByField(String fieldName, Object value) {
-        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET_JOINED);
-        builder.equals(fieldName);
-        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
-        List<Object> entities = executeSqlPreparedStatement(preparedStatement, joinedQuestionRowMapper);
-        return (List<JoinedQuestion>)(Object)entities;
+        return (List<JoinedQuestion>) getListByEqualsField(SQL_GET_JOINED, fieldName, value, joinedQuestionRowMapper);
     }
 
 }

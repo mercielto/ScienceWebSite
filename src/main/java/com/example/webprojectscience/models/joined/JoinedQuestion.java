@@ -27,16 +27,4 @@ public class JoinedQuestion {
     private List<QuestionAnswer> questionAnswers;
     private String mainQuestion;
     private Long answerId;
-
-    public JoinedQuestion(Question question, User user, List<QuestionAnswer> q, Theme theme1) {
-        id = question.getId();
-        this.user = user;
-        date = question.getDate();
-        text = question.getText();
-        tags = question.getTags();
-        theme = theme1;
-        link = question.getLink();
-        questionAnswers = q;
-        mainQuestion = question.getMainQuestion();
-    }
 }

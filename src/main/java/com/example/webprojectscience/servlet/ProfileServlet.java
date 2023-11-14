@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "ProfileServlet", value = "/profile/*")
 public class ProfileServlet extends HttpServlet {
@@ -69,7 +68,7 @@ public class ProfileServlet extends HttpServlet {
         User user = AuthorizationService.getAuthorizedUser(req);
         User profileUser = DataBaseManager.getUserDao().getByLink(link);
 
-        Subscription subscription = DataBaseManager.getSubscriptionDao().getSubsctiption(user.getId(), profileUser.getId());
+        Subscription subscription = DataBaseManager.getSubscriptionDao().getSubscription(user.getId(), profileUser.getId());
         if (subscription != null) {
             DataBaseManager.getSubscriptionDao().delete(subscription.getId());
         } else {

@@ -11,7 +11,7 @@ public class FileStoragePathBuilder {
         return Params.storagePath + "theme_images\\" + path;
     }
 
-    public static String getPathToServiveImg(String path) {
+    public static String getPathToServiceImg(String path) {
         return Params.storagePath + "service_files\\img\\" + path;
     }
 

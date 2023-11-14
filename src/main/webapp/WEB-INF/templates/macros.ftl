@@ -74,20 +74,13 @@
             </label>
         </p>
 
-        <p>
-            <label>
-                Number of responses
-                <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
-            </label>
-        </p>
-
         <#nested>
 
         <input type="submit" value="Filter">
     </div>
 </#macro>
 
-<#macro singlePost post contextPath fileBuilder>
+<#macro singlePost post contextPath fileBuilder authorizedUser>
     <div class="posts-single rounded">
     <#assign user = post.getUser()>
     <div class="posts-single-header">
@@ -114,7 +107,20 @@
             <div class="posts-single-params-likes">
 
                 <button class="posts-single-params-btn">
-                    <img class="posts-single-params-img" src="${fileBuilder.getServicePhotoInBytes("like1.png")}" alt="like">
+                    <#assign likes = post.getLikes()>
+                    <#assign source = "not_liked.png">
+
+                    <#if authorizedUser.isPresent()>
+                        <#assign authUser = authorizedUser.get()>
+                        <#list likes as like>
+                            <#if like.getUser().getId() == authUser.getId()>
+                                <#assign source = "liked.png">
+                                <#break>
+                            </#if>
+                        </#list>
+                    </#if>
+
+                    <img class="posts-single-params-img" src="${fileBuilder.getServicePhotoInBytes(source)}" alt="like">
                 </button>
                 ${post.getLikes()?size}
             </div>

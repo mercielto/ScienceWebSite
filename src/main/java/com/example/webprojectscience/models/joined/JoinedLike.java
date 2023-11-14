@@ -1,6 +1,6 @@
 package com.example.webprojectscience.models.joined;
 
-import com.example.webprojectscience.models.Like;
+import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,9 +14,5 @@ import lombok.Setter;
 public class JoinedLike {
     private Long id;
     private User user;
-
-    public JoinedLike(Like like, User user1) {
-        id = like.getId();
-        user = user1;
-    }
+    private Post post;
 }

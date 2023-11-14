@@ -1,78 +1,80 @@
 package com.example.webprojectscience.service;
 
-import com.example.webprojectscience.models.Comment;
-import com.example.webprojectscience.models.Like;
 import com.example.webprojectscience.models.Post;
-import com.example.webprojectscience.models.joined.JoinedComment;
-import com.example.webprojectscience.models.joined.JoinedLike;
+import com.example.webprojectscience.models.Theme;
+import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.utill.DataBaseManager;
+import com.example.webprojectscience.utill.FileStoragePathBuilder;
+import com.example.webprojectscience.utill.Generator;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PostsHandlerService {
     public static List<JoinedPost> getJoinedPosts() {
-        List<Post> posts = DataBaseManager.getPostDao().getAll();
-        List<JoinedPost> joinedPosts = new ArrayList<>();
-
-        for (Post post : posts) {
-            joinedPosts.add(getJoinedPost(post));
-        }
-        return joinedPosts;
-    }
-
-    public static List<JoinedComment> getJoinedComments(Long postId) {
-        List<Comment> comments = DataBaseManager.getCommentDao().getByPostId(postId);
-        List<JoinedComment> joinedComments = new ArrayList<>();
-
-        for (Comment comment : comments) {
-            joinedComments.add(
-                    new JoinedComment(
-                            comment,
-                            DataBaseManager.getUserDao().getById(comment.getId())
-                    )
-            );
-        }
-        return joinedComments;
-    }
-    public static List<JoinedLike> getJoinedLikes(Long postId) {
-        List<Like> likes = DataBaseManager.getLikeDao().getLikesByPostId(postId);
-        List<JoinedLike> joinedLikes = new ArrayList<>();
-
-        for (Like like : likes) {
-            joinedLikes.add(
-                    new JoinedLike(
-                            like,
-                            DataBaseManager.getUserDao().getById(like.getId())
-                    )
-            );
-        }
-        return joinedLikes;
-    }
-
-    public static JoinedPost getJoinedPost(Post post) {
-        return new JoinedPost(
-                post,
-                DataBaseManager.getUserDao().getById(post.getUserId()),
-                DataBaseManager.getThemeDao().getById(post.getThemeId()),
-                getJoinedComments(post.getId()),
-                getJoinedLikes(post.getId())
-        );
+        return DataBaseManager.getPostDao().getJoinedAll();
     }
 
     public static JoinedPost getJoinedPostByLink(String link) {
-        Post post = DataBaseManager.getPostDao().getByLink(link);
-        return getJoinedPost(post);
+        return DataBaseManager.getPostDao().getJoinedByLink(link);
     }
 
     public static List<JoinedPost> getJoinedPostsByUserId(Long userId) {
-        List<Post> posts = DataBaseManager.getPostDao().getByUserId(userId);
-        List<JoinedPost> joinedPosts = new ArrayList<>();
+        return DataBaseManager.getPostDao().getJoinedByUserId(userId);
+    }
 
-        for (Post post : posts) {
-            joinedPosts.add(getJoinedPost(post));
+    public static List<Theme> getThemes() {
+        return DataBaseManager.getThemeDao().getAll();
+    }
+
+    public static void createNewPost(HttpServletRequest req) {
+        Theme theme = DataBaseManager.getThemeDao().getByName(req.getParameter("theme"));
+        User user = AuthorizationService.getAuthorizedUser(req);
+
+        String tagsField = req.getParameter("tags");
+        String[] tags;
+        if (tagsField == null) {
+            tags = new String[0];
+        } else {
+            tags = tagsField.split(" ");
         }
-        return joinedPosts;
+
+        if (theme == null) {
+            throw new RuntimeException("Theme not found");
+        }
+
+        Post post = new Post();
+        post.setUserId(user.getId());
+        post.setTitle(req.getParameter("title"));
+        post.setThemeId(theme.getId());
+        post.setTags(List.of(tags));
+
+        String fileName = Generator.generateFilePostName(user);
+
+        String filePath = FileStoragePathBuilder.getPathToPostTxt(fileName);
+        createFile(filePath, req.getParameter("text"));
+        post.setPathInStorage(fileName);
+        post.setDate(Date.valueOf(LocalDate.now()));
+
+        String link = Generator.generatePostLink(user);
+        post.setLink(link);
+
+        DataBaseManager.getPostDao().insert(post);
+    }
+
+    public static void createFile(String path, String value) {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path));
+            bufferedWriter.write(value);
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

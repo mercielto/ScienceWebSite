@@ -20,7 +20,7 @@
     <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
     <main class="post-single">
-        <@macros.singlePost post contextPath fileBuilder/>
+        <@macros.singlePost post contextPath fileBuilder option/>
 
         <div class="post-single-comments">
             <@macros.singleAnswerInputField option contextPath fileBuilder/>

@@ -31,12 +31,12 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
 
     @Override
     public List<T> getAll() {
-        return (List<T>)(Object) executeSqlStatement(SQL_GET, rowMapper);
+        return (List<T>) executeSqlStatement(SQL_GET, rowMapper);
     }
 
     @Override
     public T getById(Long id) {
-        return getByField("id", id);
+        return getByEqualsField("id", id);
     }
 
     @Override
@@ -44,22 +44,27 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
         return deleteByField("id", id);
     }
 
-    protected T getByField(String fieldName, Object value) {
-        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
+    protected List<?> getListByEqualsField(String sql, String fieldName, Object value, RowMapper rm) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(sql);
         builder.equals(fieldName);
         PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
-        List<Object> entities = executeSqlStatement(preparedStatement.toString(), rowMapper);
+        return executeSqlStatement(preparedStatement.toString(), rm);
+    }
+
+    protected Object getByEqualsField(String sql, String fieldName, Object value, RowMapper rm) {
+        List<?> entities = getListByEqualsField(sql, fieldName, value, rm);
         if (entities.size() == 0) {
             return null;
         }
-        return (T) entities.get(0);
+        return entities.get(0);
     }
 
-    protected List<T> getEntitiesByField(String fieldName, Object value) {
-        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET);
-        builder.equals(fieldName);
-        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of(value));
-        return (List<T>) (Object) executeSqlPreparedStatement(preparedStatement, rowMapper);
+    protected T getByEqualsField(String fieldName, Object value) {
+        return (T) getByEqualsField(SQL_GET, fieldName, value, rowMapper);
+    }
+
+    protected List<T> getEntitiesByEqualsField(String fieldName, Object value) {
+        return (List<T>) getListByEqualsField(SQL_GET, fieldName, value, rowMapper);
     }
 
     protected PreparedStatement getPreparedStatement(String sql, List<Object> args) {
@@ -74,7 +79,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
         }
     }
 
-    protected List<Object> executeSqlPreparedStatement(PreparedStatement preparedStatement, RowMapper rm) {
+    protected List<?> executeSqlPreparedStatement(PreparedStatement preparedStatement, RowMapper rm) {
         List<Object> entities = new ArrayList<>();
         try {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -87,7 +92,7 @@ abstract class AbstractDAOImpl<T extends HasId> implements DAO<T> {
         return entities;
     }
 
-    protected List<Object> executeSqlStatement(String sql, RowMapper rm) {
+    protected List<?> executeSqlStatement(String sql, RowMapper rm) {
         List<Object> entities = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();

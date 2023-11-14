@@ -28,7 +28,7 @@
 
         <div class="posts">
             <#list posts as post>
-                <@macros.singlePost post contextPath fileBuilder/>
+                <@macros.singlePost post contextPath fileBuilder option/>
             </#list>
         </div>
 

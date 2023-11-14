@@ -1,4 +1,4 @@
-package com.example.webprojectscience.utill.RowMapper.impl;
+package com.example.webprojectscience.utill.RowMapper.impl.joined;
 
 import com.example.webprojectscience.models.Theme;
 import com.example.webprojectscience.models.User;
@@ -21,7 +21,6 @@ public class JoinedQuestionRowMapper implements RowMapper<JoinedQuestion> {
         } else {
             tags = new String[]{};
         }
-        System.out.println(rs);
         return new JoinedQuestion(
                 rs.getLong("question_id_"),
                 new User(

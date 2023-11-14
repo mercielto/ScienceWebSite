@@ -19,8 +19,8 @@ public class FriendDaoImpl extends AbstractDAOImpl<Friend> implements FriendDao 
 
     @Override
     public List<Friend> getFriends(Long userId) {
-        List<Friend> friends1 = getEntitiesByField("first_user_id", userId);
-        List<Friend> friends2 = getEntitiesByField("second_user_id", userId);
+        List<Friend> friends1 = getEntitiesByEqualsField("first_user_id", userId);
+        List<Friend> friends2 = getEntitiesByEqualsField("second_user_id", userId);
 
         for (Friend friend : friends2) {
             if (!friends1.contains(friend)) {

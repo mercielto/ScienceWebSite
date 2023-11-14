@@ -69,7 +69,11 @@ public class AuthorizationService {
         if (user != null) {
             return user;
         }
-        return getUserByCookieToken(request);
+        user = getUserByCookieToken(request);
+        if (user != null) {
+            setSessionAttributeToken(request, user);
+        }
+        return user;
     }
 
     public static boolean login(HttpServletRequest request) {

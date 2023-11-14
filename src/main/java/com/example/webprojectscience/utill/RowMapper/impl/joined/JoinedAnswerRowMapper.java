@@ -1,4 +1,4 @@
-package com.example.webprojectscience.utill.RowMapper.impl;
+package com.example.webprojectscience.utill.RowMapper.impl.joined;
 
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedAnswer;

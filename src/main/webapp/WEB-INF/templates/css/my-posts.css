@@ -1,0 +1,80 @@
+#my-posts-main {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1rem;
+    align-items: center;
+}
+
+.my-posts-post {
+    display: grid;
+    grid-template-columns: 10fr 2fr;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    align-items: center;
+
+    width: 60rem;
+    min-height: 6rem;
+    border: 0.7px solid;
+}
+
+.my-posts-params-img {
+    width: 40px;
+    height: 40px;
+}
+
+.my-posts-params {
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.my-posts-write-new-img {
+    width: 5rem;
+    height: 5rem;
+}
+
+#my-posts-write-new {
+    align-items: center;
+}
+
+.my-posts-write-new-form {
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+    column-gap: 10px;
+}
+
+#my-posts-form-params {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    gap: 10px;
+}
+
+#my-posts-textarea {
+    resize: none;
+    width: 48rem;
+    height: 30rem;
+}
+
+#my-posts-form-title {
+    width: 100%;
+}
+
+#my-post-new-header {
+    align-items: center;
+}
+
+#my-posts-new-button {
+    background: transparent;
+    outline: none;
+    border: 0;
+}
+
+#my-posts-form-submit {
+    display: flex;
+    justify-content: right;
+    background-color: transparent;
+}

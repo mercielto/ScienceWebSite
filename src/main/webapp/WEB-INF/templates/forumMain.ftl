@@ -17,7 +17,14 @@
         <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
         <main class="forum-body">
-            <@macros.settings themes=themes/>
+            <@macros.settings themes=themes>
+                <p>
+                    <label>
+                        Number of responses
+                        <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+                    </label>
+                </p>
+            </@macros.settings>
 
             <div class="forum-questions">
                 <#list questions as question>

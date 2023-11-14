@@ -64,6 +64,7 @@ textarea {
     height: 5rem;
     margin-left: 2rem;
     margin-bottom: 1rem;
+    resize: none;
 }
 
 #comment-submit {

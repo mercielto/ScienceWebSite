@@ -5,16 +5,15 @@ import com.example.webprojectscience.models.Like;
 import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.Subscription;
 import com.example.webprojectscience.models.User;
+import com.example.webprojectscience.models.joined.JoinedSubscription;
 import com.example.webprojectscience.utill.DataBaseManager;
 import com.example.webprojectscience.utill.FileStoragePathBuilder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,24 +23,24 @@ public class ProfileHandlerService {
     }
 
     public static List<User> getUserSubscriptions(User user) {
+        List<JoinedSubscription> joinedSubscriptions = DataBaseManager.getSubscriptionDao().
+                getJoinedSubscriptions(user.getId());
         List<User> users = new ArrayList<>();
-        List<Subscription> subscriptions = DataBaseManager.getSubscriptionDao().getSubscriptions(user.getId());
 
-        for (Subscription subscription : subscriptions) {
-            User subscr = DataBaseManager.getUserDao().getById(subscription.getUserId());
-            users.add(subscr);
+        for (JoinedSubscription joinedSubscription : joinedSubscriptions) {
+            users.add(joinedSubscription.getUser());
         }
 
         return users;
     }
 
     public static List<User> getUserSubscribers(User user) {
+        List<JoinedSubscription> joinedSubscriptions = DataBaseManager.getSubscriptionDao().
+                getJoinedSubscribers(user.getId());
         List<User> users = new ArrayList<>();
-        List<Subscription> subscriptions = DataBaseManager.getSubscriptionDao().getSubscribers(user.getId());
 
-        for (Subscription subscription : subscriptions) {
-            User sub = DataBaseManager.getUserDao().getById(subscription.getSubscriberId());
-            users.add(sub);
+        for (JoinedSubscription joinedSubscription : joinedSubscriptions) {
+            users.add(joinedSubscription.getSubscriber());
         }
 
         return users;

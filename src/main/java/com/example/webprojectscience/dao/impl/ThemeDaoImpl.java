@@ -3,11 +3,9 @@ package com.example.webprojectscience.dao.impl;
 import com.example.webprojectscience.dao.extensions.ThemeDao;
 import com.example.webprojectscience.models.Theme;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
-import com.example.webprojectscience.utill.RowMapper.impl.ThemeRowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ThemeDaoImpl extends AbstractDAOImpl<Theme> implements ThemeDao {
@@ -27,6 +25,6 @@ public class ThemeDaoImpl extends AbstractDAOImpl<Theme> implements ThemeDao {
 
     @Override
     public Theme getByName(String name) {
-        return getByField("name", name);
+        return getByEqualsField("name", name);
     }
 }
