@@ -14,4 +14,5 @@ public interface PostDao extends DAO<Post> {
     List<JoinedPost> getJoinedAll();
     JoinedPost getJoinedByLink(String link);
     List<JoinedPost> getJoinedByUserId(Long userId);
+    List<JoinedPost> getJoinedByAuthorId(List<Long> userIdList);
 }

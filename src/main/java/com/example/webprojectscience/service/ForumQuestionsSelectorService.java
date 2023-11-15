@@ -39,7 +39,7 @@ public class ForumQuestionsSelectorService {
         }
 
         if (tags.size() != 0) {
-            builder.contains("tags");
+            builder.contains("tags", tags.size());
             values.add(tags.toString());
         }
         return DataBaseManager.getQuestionDao().getJoinedQuestions(builder, values);

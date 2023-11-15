@@ -46,8 +46,13 @@ public class PreparedStatementConditionBuilder {
         conditions.add("%s <= ?".formatted(fileName));
     }
 
-    public void contains(String fieldName) {
-        conditions.add("%s IN ?".formatted(fieldName));
+    public void contains(String fieldName, int count) {
+        StringBuilder command = new StringBuilder("%s IN (?".formatted(fieldName));
+        for (int i = 0; i < count - 1; i++) {
+            command.append(", ?");
+        }
+        command.append(")");
+        conditions.add(command.toString());
     }
 
     public void isNull(String fieldName) {

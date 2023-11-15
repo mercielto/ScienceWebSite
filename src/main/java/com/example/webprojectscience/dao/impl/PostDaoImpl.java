@@ -3,10 +3,13 @@ package com.example.webprojectscience.dao.impl;
 import com.example.webprojectscience.dao.extensions.PostDao;
 import com.example.webprojectscience.models.Post;
 import com.example.webprojectscience.models.joined.JoinedPost;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
@@ -59,6 +62,14 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
     public List<JoinedPost> getJoinedByUserId(Long userId) {
         return (List<JoinedPost>) getListByEqualsField(SQL_GET_JOINED, "user_id", userId, joinedPostRowMapper);
 
+    }
+
+    @Override
+    public List<JoinedPost> getJoinedByAuthorId(List<Long> userIdList) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET_JOINED);
+        builder.contains("user_id", userIdList.size());
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), (List<Object>) (Object) userIdList);
+        return (List<JoinedPost>) executeSqlPreparedStatement(preparedStatement, joinedPostRowMapper);
     }
 
     @Override

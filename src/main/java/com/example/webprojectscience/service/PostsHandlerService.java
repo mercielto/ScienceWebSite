@@ -1,6 +1,7 @@
 package com.example.webprojectscience.service;
 
 import com.example.webprojectscience.models.Post;
+import com.example.webprojectscience.models.Subscription;
 import com.example.webprojectscience.models.Theme;
 import com.example.webprojectscience.models.User;
 import com.example.webprojectscience.models.joined.JoinedPost;
@@ -14,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostsHandlerService {
@@ -76,5 +78,16 @@ public class PostsHandlerService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<JoinedPost> getJoinedPostsBySubscriptions(User user) {
+        List<Subscription> subscriptions = DataBaseManager.getSubscriptionDao().getSubscriptions(user.getId());
+
+        List<Long> userIdList = new ArrayList<>();
+        for (Subscription subscription : subscriptions) {
+            userIdList.add(subscription.getUserId());
+        }
+
+        return DataBaseManager.getPostDao().getJoinedByAuthorId(userIdList);
     }
 }

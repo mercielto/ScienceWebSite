@@ -4,9 +4,15 @@
             <h1 id="header-title">MABR & DABR</h1>
         </a>
         <nav class="header-nav-settings rounded">
+            <#if option.isPresent()>
+                <#assign personalLink = "${contextPath}/personal-posts">
+            <#else>
+                <#assign personalLink = "${contextPath}/">
+            </#if>
+            <a href="${personalLink}" class="header-nav-text">Personal posts</a>
             <a href="${contextPath}/posts" class="header-nav-text">Posts</a>
             <a href="${contextPath}/forum" class="header-nav-text">Forum</a>
-            <a href="#" class="header-nav-text">Name</a>
+
 
             <#if option.isPresent()>
 
