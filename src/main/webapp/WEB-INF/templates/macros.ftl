@@ -224,3 +224,110 @@
         </div>
     </div>
 </#macro>
+
+<#--    css -->
+<#macro addNewSign themes fileBuilder>
+    <div id="my-posts-write-new">
+        <button id="my-posts-new-button" data-toggle="modal" data-target=".bd-example-modal-lg">
+            <img class="my-posts-write-new-img" src="${fileBuilder.getServicePhotoInBytes("add.png")}">
+        </button>
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="my-post-new-header">Express your thoughts</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="my-posts-write-new-form">
+                            <h4><input name="title" id="my-posts-form-title" type="text" placeholder="Title"></h4>
+
+                            <div id="my-posts-form-params">
+                                <select name="theme" id="my-posts-params-theme">
+                                    <#list themes as theme>
+                                        <option>${theme.getName()}</option>
+                                    </#list>
+                                </select>
+
+                                <input name="tags" type="text" placeholder="tags">
+                            </div>
+
+                            <textarea name="text" id="my-posts-textarea"></textarea>
+
+                            <div id="my-posts-form-submit">
+                                <input type="submit">
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</#macro>
+
+<#--    params "post": post - true, question - false-->
+<#macro postList post contextPath fileBuilder objects>
+    <#list objects as object>
+        <div class="my-posts-block">
+            <div class="my-posts-post rounded">
+                <#if post>
+                    <#assign link = contextPath + "/posts/" + object.getLink()>
+                <#else>
+                    <#assign link = contextPath + "/forum/" + object.getLink()>
+                </#if>
+                <a class="my-posts-title" href="${link}">
+                    <h4>
+                        <#if post>
+                            ${object.getTitle()}
+                        <#else>
+                            ${object.getMainQuestion()}
+                        </#if>
+                    </h4>
+                </a>
+
+                <div class="my-posts-params">
+                    <#if post>
+                        <div class="my-posts-like">
+                            <img class="my-posts-params-img" src="${fileBuilder.getServicePhotoInBytes("not_liked.png")}" alt="">
+                            ${object.getLikes()?size}
+                        </div>
+                    </#if>
+
+                    <div class="my-posts-comment">
+                        <img class="my-posts-params-img" src="${fileBuilder.getServicePhotoInBytes("comment.png")}" alt="">
+                        <#if post>
+                            ${object.getComments()?size}
+                        <#else>
+                            ${object.getQuestionAnswers()?size}
+                        </#if>
+                    </div>
+                </div>
+            </div>
+
+            <button class="my-posts-deletion-button" data-bs-toggle="modal" data-bs-target="#confirmActions">
+                <img class="my-posts-deletion" src="${fileBuilder.getServicePhotoInBytes("trashcan_delete.png")}">
+            </button>
+
+            <div class="modal fade" id="confirmActions" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm your actions. Are you sure you want to delete <a href="${link}">this</a> object?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </#list>
+</#macro>

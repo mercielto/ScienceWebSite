@@ -41,7 +41,7 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
         preparedStatement.setLong(5, entity.getThemeId());
         preparedStatement.setString(6, entity.getLink());
         preparedStatement.setString(7, entity.getMainQuestion());
-        preparedStatement.setLong(8, entity.getAnswerId());
+        preparedStatement.setObject(8, entity.getAnswerId());
     }
 
     @Override
@@ -91,6 +91,12 @@ public class QuestionDaoImpl extends AbstractDAOImpl<Question> implements Questi
     @Override
     public JoinedQuestion getJoinedQuestionByLink(String link) {
         return getJoinedQuestionByField("fq.link", link);
+    }
+
+    @Override
+    public List<JoinedQuestion> getJoinedQuestionsByUserId(Long userId) {
+        return (List<JoinedQuestion>) getListByEqualsField(SQL_GET_JOINED, "user_id",
+                userId, joinedQuestionRowMapper);
     }
 
     public List<JoinedQuestion> getJoinedQuestions(PreparedStatementConditionBuilder builder, List<Object> values) {

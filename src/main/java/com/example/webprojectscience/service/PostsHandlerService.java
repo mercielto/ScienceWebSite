@@ -62,7 +62,7 @@ public class PostsHandlerService {
         post.setPathInStorage(fileName);
         post.setDate(Date.valueOf(LocalDate.now()));
 
-        String link = Generator.generatePostLink(user);
+        String link = Generator.generateLink(user);
         post.setLink(link);
 
         DataBaseManager.getPostDao().insert(post);

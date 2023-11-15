@@ -31,22 +31,6 @@
     gap: 10px;
 }
 
-.my-posts-write-new-img {
-    width: 5rem;
-    height: 5rem;
-}
-
-#my-posts-write-new {
-    align-items: center;
-}
-
-.my-posts-write-new-form {
-    display: grid;
-    grid-template-columns: auto;
-    grid-gap: 10px;
-    column-gap: 10px;
-}
-
 #my-posts-form-params {
     display: grid;
     grid-template-columns: 2fr 5fr;
@@ -77,4 +61,22 @@
     display: flex;
     justify-content: right;
     background-color: transparent;
+}
+
+.my-posts-deletion {
+    width: 40px;
+    height: 40px;
+}
+
+.my-posts-deletion-button {
+    background: transparent;
+    outline: none;
+    border: 0;
+    height: auto;
+}
+
+.my-posts-block {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

@@ -14,7 +14,7 @@ public class SessionListenerServlet implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent se) {
         HttpSessionListener.super.sessionDestroyed(se);
 
-        String tokenValue = (String) ((HttpServletRequest) se).getSession().getAttribute("authorized");
+        String tokenValue = (String) se.getSession().getAttribute("authorized");
 
         if (tokenValue != null) {
             DataBaseManager.getTokenDao().deleteByValue(tokenValue);

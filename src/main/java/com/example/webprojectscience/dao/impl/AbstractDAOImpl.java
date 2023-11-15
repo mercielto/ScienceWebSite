@@ -1,7 +1,7 @@
 package com.example.webprojectscience.dao.impl;
 
 import com.example.webprojectscience.dao.DAO;
-import com.example.webprojectscience.models.HasId;
+import com.example.webprojectscience.models.interfaces.HasId;
 import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 import com.example.webprojectscience.utill.RowMapper.RowMapper;
 

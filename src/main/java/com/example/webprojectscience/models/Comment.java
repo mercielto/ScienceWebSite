@@ -1,5 +1,6 @@
 package com.example.webprojectscience.models;
 
+import com.example.webprojectscience.models.interfaces.HasId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment implements HasId{
+public class Comment implements HasId {
     private Long id;
     private Long userId;
     private Long postId;

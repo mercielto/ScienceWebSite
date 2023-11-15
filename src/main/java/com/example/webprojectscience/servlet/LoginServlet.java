@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
                 AuthorizationService.removeCookieToken(req, resp);
             }
 
-            Helpers.redirect(resp, req.getContextPath() + "/themes");
+            Helpers.redirect(resp, req.getContextPath() + "/");
         } else {
             Helpers.redirect(resp, req.getContextPath() + "/login");
         }

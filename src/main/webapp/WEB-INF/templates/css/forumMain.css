@@ -17,7 +17,6 @@ p {
 .forum-questions {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-content: center;
 }
 
@@ -99,4 +98,8 @@ p {
 .forum-questions-comment-count {
     font-size: 1.5rem;
     padding-bottom: 4px;
+}
+
+.forum-questions-tags {
+    font-size: 80%;
 }

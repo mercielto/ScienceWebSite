@@ -1,0 +1,15 @@
+.my-posts-write-new-img {
+    width: 5rem;
+    height: 5rem;
+}
+
+#my-posts-write-new {
+    align-items: center;
+}
+
+.my-posts-write-new-form {
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+    column-gap: 10px;
+}

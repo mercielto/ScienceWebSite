@@ -15,5 +15,6 @@ public interface QuestionDao extends DAO<Question> {
     Question getByLink(String link);
 
     JoinedQuestion getJoinedQuestionByLink(String link);
+    List<JoinedQuestion> getJoinedQuestionsByUserId(Long userId);
     List<JoinedQuestion> getJoinedQuestions(PreparedStatementConditionBuilder builder, List<Object> values);
 }

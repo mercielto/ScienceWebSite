@@ -13,7 +13,7 @@ public class Generator {
         return user.getLogin() + System.currentTimeMillis() + ".txt";
     }
 
-    public static String generatePostLink(User user) {
+    public static String generateLink(User user) {
         return user.getId() + "" + System.currentTimeMillis();
     }
 }
