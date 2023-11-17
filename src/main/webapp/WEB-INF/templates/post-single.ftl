@@ -22,7 +22,7 @@
     <main class="post-single">
         <@macros.singlePost post contextPath fileBuilder option/>
 
-        <div class="post-single-comments">
+        <div id="post-single-comments">
             <@macros.singleAnswerInputField option contextPath fileBuilder/>
 
             <#list post.getComments() as comment>
@@ -31,6 +31,7 @@
 
         </div>
     </main>
-
+    <@macros.footer contextPath/>
+    <#include "js/postSingle.jsp">
 </body>
 </html>

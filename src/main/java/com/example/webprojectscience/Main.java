@@ -1,6 +1,7 @@
 package com.example.webprojectscience;
 
 import com.example.webprojectscience.utill.ConnectionSingleton;
+import com.example.webprojectscience.utill.FileBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,16 +14,7 @@ public class Main {
             " forum_answer as fa WHERE fa.question_id = fq.id AND fq.user_id = us.id" +
             " AND theme.id = fq.theme_id";
     public static void main(String[] args) throws SQLException {
-//        Connection connection = ConnectionSingleton.getConnection();
-//
-//        PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_JOINED);
-//        ResultSet rs = preparedStatement.executeQuery();
-//        System.out.println(rs);
-//
-//        while (rs.next()) {
-//            System.out.println(rs);
-//        }
-        List<String> t = List.of("a");
-        System.out.println(String.join(" AND ", t));
+        FileBuilder builder = new FileBuilder();
+        System.out.println(builder.getPostText("personality11700248593076.txt"));
     }
 }

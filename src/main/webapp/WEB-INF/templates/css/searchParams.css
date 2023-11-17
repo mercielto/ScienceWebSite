@@ -5,7 +5,7 @@
     height: 100%;
     padding: 1rem;
     gap: 10px;
-
+    width: 20rem;
 }
 
 .forum-settings-date {
@@ -30,4 +30,25 @@
     align-content: center;
     font-size: 1.5rem;
     justify-content: center;
+}
+
+#tags-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tags-div {
+    border: 0.7px solid;
+    cursor: pointer;
+    align-items: center;
+    align-content: center;
+    padding: 5px;
+}
+
+#tags-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

@@ -49,7 +49,7 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
     }
 
     @Override
-    public List<JoinedPost> getJoinedAll() {
+    public List<JoinedPost> getJoined() {
         return (List<JoinedPost>) executeSqlStatement(SQL_GET_JOINED, joinedPostRowMapper);
     }
 
@@ -61,14 +61,28 @@ public class PostDaoImpl extends AbstractDAOImpl<Post> implements PostDao {
     @Override
     public List<JoinedPost> getJoinedByUserId(Long userId) {
         return (List<JoinedPost>) getListByEqualsField(SQL_GET_JOINED, "user_id", userId, joinedPostRowMapper);
-
     }
 
     @Override
-    public List<JoinedPost> getJoinedByAuthorId(List<Long> userIdList) {
-        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder(SQL_GET_JOINED);
+    public List<JoinedPost> getJoinedByAuthorId(PreparedStatementConditionBuilder builder, List<Long> userIdList) {
+        builder.setSql(SQL_GET_JOINED);
         builder.contains("user_id", userIdList.size());
         PreparedStatement preparedStatement = getPreparedStatement(builder.get(), (List<Object>) (Object) userIdList);
+        return (List<JoinedPost>) executeSqlPreparedStatement(preparedStatement, joinedPostRowMapper);
+    }
+
+    @Override
+    public List<JoinedPost> getJoined(PreparedStatementConditionBuilder builder, List<Object> values) {
+        builder.setSql(SQL_GET_JOINED);
+        builder.orderBy("date DESC");
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), values);
+        return (List<JoinedPost>) executeSqlPreparedStatement(preparedStatement, joinedPostRowMapper);
+    }
+
+    @Override
+    public List<JoinedPost> getJoined(PreparedStatementConditionBuilder builder) {
+        builder.setSql(SQL_GET_JOINED);
+        PreparedStatement preparedStatement = getPreparedStatement(builder.get(), List.of());
         return (List<JoinedPost>) executeSqlPreparedStatement(preparedStatement, joinedPostRowMapper);
     }
 

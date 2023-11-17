@@ -18,12 +18,12 @@
     padding: 0.5rem;
 }
 
-#profile-subscribed {
+.profile-subscribed {
     background-color: white;
     color: black;
 }
 
-#profile-notSubscribed {
+.profile-notSubscribed {
     background-color: black;
     color: white;
 }

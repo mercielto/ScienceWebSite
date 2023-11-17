@@ -108,3 +108,20 @@
     display: grid;
     grid-template-columns: 2fr 5fr;
 }
+
+#need-more {
+    outline: none;
+    border: 0.7px solid;
+    background: transparent;
+
+    width: 10rem;
+    height: 100%;
+}
+
+#more-posts {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}

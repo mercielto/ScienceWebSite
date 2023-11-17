@@ -8,3 +8,9 @@
     margin-top: 2rem;
     gap: 1rem;
 }
+
+.posts-single-text {
+    overflow: visible!important;
+}
+
+.posts-single

@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.List;
 
 public class QuestionAnswerDaoImpl extends AbstractDAOImpl<QuestionAnswer> implements QuestionAnswerDao{
-    public static String SQL_GET_JOINED = "SELECT * from forum_answer as fa, \"User\" as us" +
+    public static String SQL_GET_JOINED = "SELECT *, fa.id \"answer_id\" from forum_answer as fa, \"User\" as us" +
             " WHERE fa.user_id = us.id";
     private RowMapper<JoinedAnswer> joinedAnswerRowMapper;
     public QuestionAnswerDaoImpl(Connection connection, String tableName, RowMapper<QuestionAnswer> rowMapper,

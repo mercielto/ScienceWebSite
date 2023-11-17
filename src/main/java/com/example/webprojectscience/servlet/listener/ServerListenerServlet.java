@@ -18,6 +18,8 @@ public class ServerListenerServlet implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext ctx = sce.getServletContext();
+        ctx.setAttribute("limit", 2);
+
         FreemarkerConfigSingleton.setServletContext(ctx);
 
         DataBaseManager.setUserDao(new UserDAOImpl(ConnectionSingleton.getConnection(),

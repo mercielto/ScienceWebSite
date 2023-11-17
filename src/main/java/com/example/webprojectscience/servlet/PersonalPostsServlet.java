@@ -28,7 +28,8 @@ public class PersonalPostsServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         User user = AuthorizationService.getAuthorizedUser(req);
-        List<JoinedPost> posts = PostsHandlerService.getJoinedPostsBySubscriptions(user);
+        List<JoinedPost> posts = PostsHandlerService.getJoinedPostsBySubscriptions(user,
+                (int) req.getServletContext().getAttribute("limit"));
 
         Map<String, Object> params = NavbarMapGetter.getMap(req, user);
         params.put("posts", posts);

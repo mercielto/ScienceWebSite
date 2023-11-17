@@ -11,4 +11,6 @@ public interface CommentDao extends DAO<Comment> {
     List<Comment> getByPostId(Long postId);
 
     List<JoinedComment> getJoinedByPostId(long postId);
+
+    JoinedComment getJoinedById(Long id);
 }

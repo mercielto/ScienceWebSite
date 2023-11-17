@@ -21,32 +21,30 @@
         <img class="profile-photo rounded-circle" src="${fileBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
 
         <#assign disabled="disabled">
-        <#if option.isPresent()>
-            <#assign disabled="">
-            <#assign user = option.get()>
+        <div id="subscription-div">
+            <#if option.isPresent()>
+                <#assign disabled="">
+                <#assign user = option.get()>
 
-            <#if user.getId() == profileUser.getId()>
-                <a href="${contextPath}/profile/settings/${user.getLink()}">
-                    <button name="settings" id="profile-notSubscribed" class="rounded profile-subscribe-size">Settings</button>
-                </a>
-            <#else>
-                <form method="post">
-                    <#if subscribed>
-                        <button name="subscribe" id="profile-subscribed" class="rounded profile-subscribe-size" ${disabled}>Subscribed</button>
-                    <#else>
-                        <button name="subscribe" id="profile-notSubscribed" class="rounded profile-subscribe-size" ${disabled}>Subscribe</button>
-                    </#if>
-                </form>
-            </#if>
-        <#else>
-            <form method="post">
-                <#if subscribed>
-                    <button name="subscribe" id="profile-subscribed" class="rounded profile-subscribe-size" ${disabled}>Subscribed</button>
+                <#if user.getId() == profileUser.getId()>
+                    <a href="${contextPath}/profile/settings/${user.getLink()}">
+                        <button name="settings" id="profile-notSubscribed" class="rounded profile-subscribe-size">Settings</button>
+                    </a>
                 <#else>
-                    <button name="subscribe" id="profile-notSubscribed" class="rounded profile-subscribe-size" ${disabled}>Subscribe</button>
+                    <#if subscribed>
+                        <button name="subscribe" id="subscribe-button" class="profile-subscribed rounded profile-subscribe-size" ${disabled}>Subscribed</button>
+                    <#else>
+                        <button name="not_subscribed" id="subscribe-button" class="profile-notSubscribed rounded profile-subscribe-size" ${disabled}>Subscribe</button>
+                    </#if>
                 </#if>
-            </form>
-        </#if>
+            <#else>
+                <#if subscribed>
+                    <button name="subscribed" id="subscribe-button" class="profile-subscribed rounded profile-subscribe-size" ${disabled}>Subscribed</button>
+                <#else>
+                    <button name="not_subscribed" id="subscribe-button" class="profile-notSubscribed rounded profile-subscribe-size" ${disabled}>Subscribe</button>
+                </#if>
+            </#if>
+        </div>
 
         <p id="profile-description" class="rounded">
             <#if (profileUser.getDescription())??>
@@ -66,9 +64,7 @@
         </div>
     </main>
 
-    <footer>
-
-    </footer>
-
+    <@macros.footer contextPath/>
+    <#include "js/profile.jsp">
 </body>
 </html>

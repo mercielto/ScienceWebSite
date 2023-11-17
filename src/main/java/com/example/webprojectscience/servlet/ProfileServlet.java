@@ -58,24 +58,4 @@ public class ProfileServlet extends HttpServlet {
 
         //option, storage.., proc, profileUser, subscribed  - boolean, profileUserSubscriptions (List<User>), profileUserLikes, profileUserPosts
     }
-
-    // сделать через ajax
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String subscribe = req.getParameter("subscriber");
-        String link = req.getPathInfo().substring(1);
-
-        User user = AuthorizationService.getAuthorizedUser(req);
-        User profileUser = DataBaseManager.getUserDao().getByLink(link);
-
-        Subscription subscription = DataBaseManager.getSubscriptionDao().getSubscription(user.getId(), profileUser.getId());
-        if (subscription != null) {
-            DataBaseManager.getSubscriptionDao().delete(subscription.getId());
-        } else {
-            subscription = new Subscription();
-            subscription.setUserId(profileUser.getId());
-            subscription.setSubscriberId(user.getId());
-            DataBaseManager.getSubscriptionDao().insert(subscription);
-        }
-    }
 }

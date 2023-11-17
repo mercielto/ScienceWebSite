@@ -27,5 +27,9 @@
         <@macros.postList false contextPath fileBuilder questions/>
     </#if>
 </div>
+<@macros.footer contextPath/>
+<#include "js/myQuestions.jsp">
+
 </body>
+
 </html>

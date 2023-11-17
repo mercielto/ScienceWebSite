@@ -8,6 +8,7 @@ import com.example.webprojectscience.models.joined.JoinedPost;
 import com.example.webprojectscience.utill.DataBaseManager;
 import com.example.webprojectscience.utill.FileStoragePathBuilder;
 import com.example.webprojectscience.utill.Generator;
+import com.example.webprojectscience.utill.PreparedStatementConditionBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedWriter;
@@ -19,8 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostsHandlerService {
-    public static List<JoinedPost> getJoinedPosts() {
-        return DataBaseManager.getPostDao().getJoinedAll();
+    public static List<JoinedPost> getJoinedPosts(int limit) {
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder();
+        builder.orderBy("date DESC");
+        builder.setLimit(limit);
+        return DataBaseManager.getPostDao().getJoined(builder);
     }
 
     public static JoinedPost getJoinedPostByLink(String link) {
@@ -41,7 +45,7 @@ public class PostsHandlerService {
 
         String tagsField = req.getParameter("tags");
         String[] tags;
-        if (tagsField == null) {
+        if (tagsField == "") {
             tags = new String[0];
         } else {
             tags = tagsField.split(" ");
@@ -80,7 +84,7 @@ public class PostsHandlerService {
         }
     }
 
-    public static List<JoinedPost> getJoinedPostsBySubscriptions(User user) {
+    public static List<JoinedPost> getJoinedPostsBySubscriptions(User user, int limit) {
         List<Subscription> subscriptions = DataBaseManager.getSubscriptionDao().getSubscriptions(user.getId());
 
         List<Long> userIdList = new ArrayList<>();
@@ -88,6 +92,10 @@ public class PostsHandlerService {
             userIdList.add(subscription.getUserId());
         }
 
-        return DataBaseManager.getPostDao().getJoinedByAuthorId(userIdList);
+        PreparedStatementConditionBuilder builder = new PreparedStatementConditionBuilder();
+        builder.orderBy("date DESC");
+        builder.setLimit(limit);
+
+        return DataBaseManager.getPostDao().getJoinedByAuthorId(builder, userIdList);
     }
 }

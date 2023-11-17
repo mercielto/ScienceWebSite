@@ -16,12 +16,14 @@
 
         <form method="post" class="form-position rounded">
             <label class="rounded">Enter login:</label>
-            <input class="rounded" type='text' name='login'>
+            <input class="rounded" type='text' name='login' minlength="8">
             <label class="rounded" >Enter password:</label>
-            <input class="rounded" type='text' name='password1'>
+            <input class="rounded" type='password' name='password1'>
             <label class="rounded">Repeat password:</label>
-            <input class="rounded" type='text' name='password2'><br>
+            <input class="rounded" type='password' name='password2'><br>
             <input class="login-registration-button rounded" type="submit" value="Register"><br>
         </form>
     </body>
+
+    <@macros.footer contextPath/>
 </html>

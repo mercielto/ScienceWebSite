@@ -42,6 +42,11 @@ public class CommentDaoImpl extends AbstractDAOImpl<Comment> implements CommentD
     }
 
     @Override
+    public JoinedComment getJoinedById(Long id) {
+        return (JoinedComment) getByEqualsField(SQL_GET_JOINED, "comment.id", id, joinedCommentRowMapper);
+    }
+
+    @Override
     void fillGapsInStatement(PreparedStatement preparedStatement, Comment entity) throws SQLException {
         preparedStatement.setLong(1, entity.getUserId());
         preparedStatement.setLong(2, entity.getPostId());

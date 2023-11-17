@@ -9,7 +9,7 @@
 .answers-single {
     border: solid 0.7px;
     min-height: 5rem;
-    width: 50rem;
+    /*width: 50rem;*/
     padding-top: 1rem;
     padding-left: 1rem;
 
@@ -78,4 +78,35 @@ textarea {
     justify-content: left;
     margin-left: 2rem;
     font-size: 1.2rem;
+}
+
+.answers-single-div {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.answers-img-mark {
+    width: 40px;
+    height: 40px;
+}
+
+#answers-single-div-button {
+    background-color: transparent;
+    outline: none;
+    border: 0;
+}
+
+label > input{ /* HIDE RADIO */
+    visibility: hidden; /* Makes input not-clickable */
+    position: absolute; /* Remove input from document flow */
+}
+label > input + img{ /* IMAGE STYLES */
+    cursor:pointer;
+    border:2px solid transparent;
+}
+label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+    border:2px solid #f00;
 }

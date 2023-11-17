@@ -54,9 +54,41 @@
             <@macros.singleAnswerInputField option contextPath fileBuilder/>
 
             <#list answers as answer>
-                <@macros.singleAnswer answer contextPath fileBuilder/>
+                <div class="answers-single-div">
+                    <#if option.isPresent()>
+
+                        <#assign user = option.get()>
+
+                        <#if author.getId() == user.getId()>
+                            <label>
+                                <input type="radio" name="mark-as-correct" value="${question.getId()}">
+
+                                    <#if question.getAnswerId()?has_content>
+                                        <#if answer.getId() != question.getAnswerId()>
+                                            <img class="answers-img-mark" src="${fileBuilder.getServicePhotoInBytes("check-mark_not_selected.png")}" alt="Mark as correct">
+                                        <#else>
+                                            <img class="answers-img-mark" src="${fileBuilder.getServicePhotoInBytes("check-mark_selected.png")}" alt="Correct answer">
+                                        </#if>
+                                    <#else>
+                                        <img class="answers-img" src="${fileBuilder.getServicePhotoInBytes("check-mark_not_selected.png")}" alt="Mark as correct">
+                                    </#if>
+                            </label>
+                        <#else>
+                            <#if answer.getId() == question.getAnswerId()>
+                                <img title="This answer has been marked as correct" class="answers-img-mark" src="${fileBuilder.getServicePhotoInBytes("check-mark_selected.png")}" alt="Correct answer">
+                            </#if>
+                        </#if>
+                    <#else>
+                        <#if answer.getId() == question.getAnswerId()>
+                            <img title="This answer has been marked as correct" class="answers-img-mark" src="${fileBuilder.getServicePhotoInBytes("check-mark_selected.png")}" alt="Correct answer">
+                        </#if>
+                    </#if>
+                    <@macros.singleAnswer answer contextPath fileBuilder/>
+                </div>
             </#list>
         </div>
     </main>
+    <@macros.footer contextPath/>
+    <#include "js/forumQuestionAnswer.jsp">
 </body>
 </html>

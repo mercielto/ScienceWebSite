@@ -17,23 +17,26 @@
 <body>
     <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
-    <main class="main-posts">
-        <@macros.settings themes=themes>
-            <label class="settings-likes">
-                Likes
-                <input type="text" onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
-            </label>
-        </@macros.settings>
+    <main>
+        <div class="main-posts">
+            <@macros.settings themes=themes/>
 
 
-        <div class="posts">
-            <#list posts as post>
-                <@macros.singlePost post contextPath fileBuilder option/>
-            </#list>
+            <div class="posts" id="posts_">
+                <#list posts as post>
+                    <@macros.singlePost post contextPath fileBuilder option/>
+                </#list>
+            </div>
         </div>
 
-
+        <div id="more-posts">
+            <button id="need-more" class="rounded">
+                I NEED MORE!
+            </button>
+        </div>
     </main>
 
+    <@macros.footer contextPath/>
+    <#include "js/searchFilterPost.jsp">
 </body>
 </html>

@@ -11,7 +11,7 @@ public class JoinedAnswerRowMapper implements RowMapper<JoinedAnswer> {
     @Override
     public JoinedAnswer from(ResultSet rs) throws SQLException {
         return new JoinedAnswer(
-                rs.getLong("question_id"),
+                rs.getLong("answer_id"),
                 new User(
                         rs.getLong("user_id"),
                         rs.getString("login"),

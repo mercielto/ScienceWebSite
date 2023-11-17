@@ -42,5 +42,8 @@
         </div>
 
     </div>
+
+    <@macros.footer contextPath/>
+
 </body>
 </html>

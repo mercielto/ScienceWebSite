@@ -21,12 +21,12 @@
         <h2 id="profile-name"><input name="name" id="profile-name-input" type="text" value="${profileUser.getName()}"></h2>
 
         <div id="img-redactor">
-            <img class="profile-photo rounded-circle" src="${fileBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
+            <img id="prof-photo" class="profile-photo rounded-circle" src="${fileBuilder.getProfilePhotoInBytes(profileUser)}" alt="profile photo"/>
 
-            <img id="delete-profile-photo" src="${fileBuilder.getServicePhotoInBytes("cross.png")}">
+            <img id="delete-profile-photo" onclick="deleteImg()" src="${fileBuilder.getServicePhotoInBytes("cross.png")}">
         </div>
 
-        <input id="img-input" type="file" value="Upload" name="img">
+        <input id="img-input" onchange="imgDownload(event)" type="file" value="Upload" name="img">
         <LABEL for="img-input" class="rounded" id="img-input-label">Download image</LABEL>
 
         <button name="submit" id="profile-submit" class="rounded profile-subscribe-size">Submit changes</button>
@@ -40,12 +40,10 @@
             <@macros.profileAttributePosts listOfPost=profileUserPosts topic="Posts" contextPath=contextPath/>
         </div>
     </form>
-
+    <#include "js/profileSettings.jsp">
 </main>
 
-<footer>
-
-</footer>
-
+<@macros.footer contextPath/>
+<#include "js/profileSettings.jsp">
 </body>
 </html>

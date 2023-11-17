@@ -20,6 +20,10 @@ public class FileBuilder {
         return ImageProcessor.encodeImage(FileStoragePathBuilder.getPathToServiceImg(name));
     }
 
+    public String getProfilePhotoInBytes(String name) {
+        return ImageProcessor.encodeImage(FileStoragePathBuilder.getPathToProfileImage(name));
+    }
+
     public String getPostText(String link) {
         String path = FileStoragePathBuilder.getPathToPostTxt(link);
         BufferedReader bufferedReader = null;

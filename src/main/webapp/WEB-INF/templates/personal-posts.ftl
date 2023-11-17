@@ -18,12 +18,20 @@
 <@navBar.navBar option=option contextPath=contextPath fileBuilder=fileBuilder/>
 
 <main class="main-posts">
-    <div class="posts">
+    <div class="posts" id="posts_">
         <#list posts as post>
             <@macros.singlePost post contextPath fileBuilder option/>
         </#list>
     </div>
 </main>
 
+<div id="more-posts">
+    <button id="need-more" class="rounded">
+        I NEED MORE!
+    </button>
+</div>
+
+<@macros.footer contextPath/>
+<#include "js/peronalPosts.jsp">
 </body>
 </html>

@@ -14,10 +14,11 @@ p {
     margin: 0;
 }
 
-.forum-questions {
+#forum-questions {
     display: flex;
     flex-direction: column;
     align-content: center;
+    gap: 2rem;
 }
 
 .forum-questions-img {
@@ -34,7 +35,6 @@ p {
     grid-template-columns: 1fr 7.5fr 1.5fr 1fr;
     column-gap: 10px;
 
-    margin-top: 20px;
     padding-left: 6px;
     padding-right: 6px;
 }
@@ -102,4 +102,26 @@ p {
 
 .forum-questions-tags {
     font-size: 80%;
+}
+
+#questions-div {
+    display: flex;
+    flex-direction: column;
+}
+
+#more-posts {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+#need-more {
+    outline: none;
+    border: 0.7px solid;
+    background: transparent;
+
+    width: 10rem;
+    height: 100%;
 }

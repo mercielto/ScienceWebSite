@@ -18,11 +18,13 @@
         <p>Enter login:</p>
         <input class="rounded" type='text' name='login'>
         <p>Enter password:</p>
-        <input class="rounded" type='text' name='password'><br>
+        <input class="rounded" type='password' name='password'><br>
         <div id="remember-me">
             <input class="rounded" type='checkbox' name='remember_me'>Remember me<br>
         </div>
         <input class="rounded login-registration-button" type="submit" value="Login"><br>
     </form>
+    <@macros.footer contextPath/>
+
 </body>
 </html>
